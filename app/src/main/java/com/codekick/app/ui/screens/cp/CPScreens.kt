@@ -22,9 +22,9 @@ data class Language(val id: String, val name: String, val icon: ImageVector, val
 
 val cpLanguages = listOf(
     Language("cpp", "C++", Icons.Outlined.Code, Color(0xFF0077CC)),
-    Language("java", "Java", Icons.Outlined.Coffee, Color(0xFFE76F00)),
+    Language("java", "Java", Icons.Outlined.LocalCafe, Color(0xFFE76F00)),
     Language("python", "Python", Icons.Outlined.Terminal, Color(0xFF3776AB)),
-    Language("javascript", "JavaScript", Icons.Outlined.Javascript, Color(0xFFF7DF1E)),
+    Language("javascript", "JavaScript", Icons.Outlined.DataObject, Color(0xFFF7DF1E)),
     Language("go", "Go", Icons.Outlined.Code, Color(0xFF00ADD8)),
     Language("rust", "Rust", Icons.Outlined.Memory, Color(0xFFCE422B)),
 )

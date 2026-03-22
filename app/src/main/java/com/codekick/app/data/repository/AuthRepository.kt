@@ -8,6 +8,8 @@ import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -54,7 +56,3 @@ class AuthRepository @Inject constructor() {
         }
     }
 }
-
-// Extension to build JSON object without serialization overhead
-private fun buildJsonObject(block: kotlinx.serialization.json.JsonObjectBuilder.() -> Unit) =
-    kotlinx.serialization.json.buildJsonObject(block)

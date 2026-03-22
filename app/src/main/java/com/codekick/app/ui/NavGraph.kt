@@ -70,11 +70,6 @@ fun NavGraph(
 ) {
     val isLoggedIn by authViewModel.isLoggedIn.collectAsStateWithLifecycle()
 
-    fun protect(screen: @Composable () -> Unit): @Composable () -> Unit = {
-        if (isLoggedIn) screen()
-        else navController.navigate(Routes.AUTH) { popUpTo(0) }
-    }
-
     NavHost(
         navController = navController,
         startDestination = Routes.HOME
