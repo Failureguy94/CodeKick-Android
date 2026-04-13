@@ -6,7 +6,7 @@ import com.codekick.app.data.remote.supabase
 import io.github.jan.supabase.functions.functions
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Order
-import io.ktor.client.call.body
+import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import java.text.SimpleDateFormat
@@ -97,10 +97,8 @@ class LearningRepository @Inject constructor() {
             put("topic", topic)
             if (focusArea != null) put("focus_area", focusArea)
         }
-        val response = supabase.functions.invoke("generate-notes") {
-            this.body = body
-        }
-        return response.body<String>()
+        val response = supabase.functions.invoke("generate-notes", body = body)
+        return response.bodyAsText()
     }
 
     suspend fun saveTopic(userId: String, topic: String, notes: String) {

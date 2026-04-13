@@ -118,7 +118,7 @@ fun TrackScreen(
                 modifier = Modifier.weight(1f)
             )
             TrackStatCard(
-                icon = Icons.Outlined.LocalFire,
+                icon = Icons.Outlined.Whatshot,
                 label = "Day Streak",
                 value = "${state.currentStreak}",
                 modifier = Modifier.weight(1f),
@@ -154,8 +154,8 @@ fun TrackScreen(
                     Triple("First Topic!", state.totalTopics >= 1, Icons.Outlined.EmojiEvents),
                     Triple("5 Topics Learned", state.totalTopics >= 5, Icons.Outlined.EmojiEvents),
                     Triple("10 Topics Learned", state.totalTopics >= 10, Icons.Outlined.EmojiEvents),
-                    Triple("7-Day Streak", state.currentStreak >= 7, Icons.Outlined.LocalFire),
-                    Triple("30-Day Streak", state.currentStreak >= 30, Icons.Outlined.LocalFire),
+                    Triple("7-Day Streak", state.currentStreak >= 7, Icons.Outlined.Whatshot),
+                    Triple("30-Day Streak", state.currentStreak >= 30, Icons.Outlined.Whatshot),
                 )
                 milestones.forEach { (label, achieved, icon) ->
                     MilestoneRow(label, achieved, icon)

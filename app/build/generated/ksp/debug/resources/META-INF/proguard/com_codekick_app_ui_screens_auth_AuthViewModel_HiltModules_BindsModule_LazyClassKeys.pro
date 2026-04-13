@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.codekick.app.ui.screens.auth.AuthViewModel

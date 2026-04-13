@@ -1,0 +1,181 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.codekick.app"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="36" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:4:5-67
+11-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:4:22-64
+12    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+12-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:5:5-72
+12-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:5:22-69
+13
+14    <permission
+14-->[androidx.core:core:1.15.0] /home/sarthak/.gradle/caches/8.11.1/transforms/fda2fb863457f749f7cd3d110d751491/transformed/core-1.15.0/AndroidManifest.xml:22:5-24:47
+15        android:name="com.codekick.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+15-->[androidx.core:core:1.15.0] /home/sarthak/.gradle/caches/8.11.1/transforms/fda2fb863457f749f7cd3d110d751491/transformed/core-1.15.0/AndroidManifest.xml:23:9-81
+16        android:protectionLevel="signature" />
+16-->[androidx.core:core:1.15.0] /home/sarthak/.gradle/caches/8.11.1/transforms/fda2fb863457f749f7cd3d110d751491/transformed/core-1.15.0/AndroidManifest.xml:24:9-44
+17
+18    <uses-permission android:name="com.codekick.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+18-->[androidx.core:core:1.15.0] /home/sarthak/.gradle/caches/8.11.1/transforms/fda2fb863457f749f7cd3d110d751491/transformed/core-1.15.0/AndroidManifest.xml:26:5-97
+18-->[androidx.core:core:1.15.0] /home/sarthak/.gradle/caches/8.11.1/transforms/fda2fb863457f749f7cd3d110d751491/transformed/core-1.15.0/AndroidManifest.xml:26:22-94
+19
+20    <application
+20-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:7:5-33:19
+21        android:name="com.codekick.app.CodeKickApp"
+21-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:8:9-36
+22        android:allowBackup="true"
+22-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:9:9-35
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.15.0] /home/sarthak/.gradle/caches/8.11.1/transforms/fda2fb863457f749f7cd3d110d751491/transformed/core-1.15.0/AndroidManifest.xml:28:18-86
+24        android:debuggable="true"
+25        android:extractNativeLibs="false"
+26        android:icon="@mipmap/ic_launcher"
+26-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:10:9-43
+27        android:label="@string/app_name"
+27-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:11:9-41
+28        android:roundIcon="@mipmap/ic_launcher_round"
+28-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:12:9-54
+29        android:supportsRtl="true"
+29-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:13:9-35
+30        android:theme="@style/Theme.CodeKick" >
+30-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:14:9-46
+31        <activity
+31-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:16:9-32:20
+32            android:name="com.codekick.app.MainActivity"
+32-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:17:13-41
+33            android:exported="true"
+33-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:18:13-36
+34            android:theme="@style/Theme.CodeKick.Splash"
+34-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:20:13-57
+35            android:windowSoftInputMode="adjustResize" >
+35-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:19:13-55
+36            <intent-filter>
+36-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:21:13-24:29
+37                <action android:name="android.intent.action.MAIN" />
+37-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:22:17-69
+37-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:22:25-66
+38
+39                <category android:name="android.intent.category.LAUNCHER" />
+39-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:23:17-77
+39-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:23:27-74
+40            </intent-filter>
+41            <!-- Deep link support: codekick:// -->
+42            <intent-filter>
+42-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:26:13-31:29
+43                <action android:name="android.intent.action.VIEW" />
+43-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:27:17-69
+43-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:27:25-66
+44
+45                <category android:name="android.intent.category.DEFAULT" />
+45-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:28:17-76
+45-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:28:27-73
+46                <category android:name="android.intent.category.BROWSABLE" />
+46-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:29:17-78
+46-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:29:27-75
+47
+48                <data android:scheme="codekick" />
+48-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:30:17-51
+48-->/home/sarthak/CodeKick-Android/app/src/main/AndroidManifest.xml:30:23-48
+49            </intent-filter>
+50        </activity>
+51
+52        <provider
+52-->[io.github.jan-tennert.supabase:auth-kt-android:3.4.1] /home/sarthak/.gradle/caches/8.11.1/transforms/ccbe148fcc51835a0557568bdf7edd66/transformed/auth-kt/AndroidManifest.xml:9:9-17:20
+53            android:name="androidx.startup.InitializationProvider"
+53-->[io.github.jan-tennert.supabase:auth-kt-android:3.4.1] /home/sarthak/.gradle/caches/8.11.1/transforms/ccbe148fcc51835a0557568bdf7edd66/transformed/auth-kt/AndroidManifest.xml:10:13-67
+54            android:authorities="com.codekick.app.androidx-startup"
+54-->[io.github.jan-tennert.supabase:auth-kt-android:3.4.1] /home/sarthak/.gradle/caches/8.11.1/transforms/ccbe148fcc51835a0557568bdf7edd66/transformed/auth-kt/AndroidManifest.xml:11:13-68
+55            android:exported="false" >
+55-->[io.github.jan-tennert.supabase:auth-kt-android:3.4.1] /home/sarthak/.gradle/caches/8.11.1/transforms/ccbe148fcc51835a0557568bdf7edd66/transformed/auth-kt/AndroidManifest.xml:12:13-37
+56            <meta-data
+56-->[io.github.jan-tennert.supabase:auth-kt-android:3.4.1] /home/sarthak/.gradle/caches/8.11.1/transforms/ccbe148fcc51835a0557568bdf7edd66/transformed/auth-kt/AndroidManifest.xml:14:13-16:52
+57                android:name="io.github.jan.supabase.auth.SupabaseInitializer"
+57-->[io.github.jan-tennert.supabase:auth-kt-android:3.4.1] /home/sarthak/.gradle/caches/8.11.1/transforms/ccbe148fcc51835a0557568bdf7edd66/transformed/auth-kt/AndroidManifest.xml:15:17-79
+58                android:value="androidx.startup" />
+58-->[io.github.jan-tennert.supabase:auth-kt-android:3.4.1] /home/sarthak/.gradle/caches/8.11.1/transforms/ccbe148fcc51835a0557568bdf7edd66/transformed/auth-kt/AndroidManifest.xml:16:17-49
+59            <meta-data
+59-->[androidx.emoji2:emoji2:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/049d63e0b98a1c59059dfdda16279541/transformed/emoji2-1.4.0/AndroidManifest.xml:29:13-31:52
+60                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+60-->[androidx.emoji2:emoji2:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/049d63e0b98a1c59059dfdda16279541/transformed/emoji2-1.4.0/AndroidManifest.xml:30:17-75
+61                android:value="androidx.startup" />
+61-->[androidx.emoji2:emoji2:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/049d63e0b98a1c59059dfdda16279541/transformed/emoji2-1.4.0/AndroidManifest.xml:31:17-49
+62            <meta-data
+62-->[androidx.lifecycle:lifecycle-process:2.10.0] /home/sarthak/.gradle/caches/8.11.1/transforms/87d3ab6a79f07fa9de8d778609dd64f1/transformed/lifecycle-process-2.10.0/AndroidManifest.xml:29:13-31:52
+63                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+63-->[androidx.lifecycle:lifecycle-process:2.10.0] /home/sarthak/.gradle/caches/8.11.1/transforms/87d3ab6a79f07fa9de8d778609dd64f1/transformed/lifecycle-process-2.10.0/AndroidManifest.xml:30:17-78
+64                android:value="androidx.startup" />
+64-->[androidx.lifecycle:lifecycle-process:2.10.0] /home/sarthak/.gradle/caches/8.11.1/transforms/87d3ab6a79f07fa9de8d778609dd64f1/transformed/lifecycle-process-2.10.0/AndroidManifest.xml:31:17-49
+65            <meta-data
+65-->[com.squareup.okhttp3:okhttp-android:5.3.2] /home/sarthak/.gradle/caches/8.11.1/transforms/832e220e7ceca254b406aab0d484237a/transformed/okhttp-release/AndroidManifest.xml:16:13-18:52
+66                android:name="okhttp3.internal.platform.PlatformInitializer"
+66-->[com.squareup.okhttp3:okhttp-android:5.3.2] /home/sarthak/.gradle/caches/8.11.1/transforms/832e220e7ceca254b406aab0d484237a/transformed/okhttp-release/AndroidManifest.xml:17:17-77
+67                android:value="androidx.startup" />
+67-->[com.squareup.okhttp3:okhttp-android:5.3.2] /home/sarthak/.gradle/caches/8.11.1/transforms/832e220e7ceca254b406aab0d484237a/transformed/okhttp-release/AndroidManifest.xml:18:17-49
+68            <meta-data
+68-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.3.0] /home/sarthak/.gradle/caches/8.11.1/transforms/27ddbddf97ba1a3d73acc39a0bc71472/transformed/multiplatform-settings-no-arg-debug/AndroidManifest.xml:29:13-31:52
+69                android:name="com.russhwolf.settings.SettingsInitializer"
+69-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.3.0] /home/sarthak/.gradle/caches/8.11.1/transforms/27ddbddf97ba1a3d73acc39a0bc71472/transformed/multiplatform-settings-no-arg-debug/AndroidManifest.xml:30:17-74
+70                android:value="androidx.startup" />
+70-->[com.russhwolf:multiplatform-settings-no-arg-android-debug:1.3.0] /home/sarthak/.gradle/caches/8.11.1/transforms/27ddbddf97ba1a3d73acc39a0bc71472/transformed/multiplatform-settings-no-arg-debug/AndroidManifest.xml:31:17-49
+71            <meta-data
+71-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+72                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+72-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+73                android:value="androidx.startup" />
+73-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+74        </provider>
+75
+76        <activity
+76-->[androidx.compose.ui:ui-tooling-android:1.9.0] /home/sarthak/.gradle/caches/8.11.1/transforms/4b0cb647dda1f75ada977f76b21d4af6/transformed/ui-tooling/AndroidManifest.xml:23:9-25:39
+77            android:name="androidx.compose.ui.tooling.PreviewActivity"
+77-->[androidx.compose.ui:ui-tooling-android:1.9.0] /home/sarthak/.gradle/caches/8.11.1/transforms/4b0cb647dda1f75ada977f76b21d4af6/transformed/ui-tooling/AndroidManifest.xml:24:13-71
+78            android:exported="true" />
+78-->[androidx.compose.ui:ui-tooling-android:1.9.0] /home/sarthak/.gradle/caches/8.11.1/transforms/4b0cb647dda1f75ada977f76b21d4af6/transformed/ui-tooling/AndroidManifest.xml:25:13-36
+79
+80        <receiver
+80-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+81            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+81-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+82            android:directBootAware="false"
+82-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+83            android:enabled="true"
+83-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+84            android:exported="true"
+84-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+85            android:permission="android.permission.DUMP" >
+85-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+86            <intent-filter>
+86-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+87                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+87-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+87-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+88            </intent-filter>
+89            <intent-filter>
+89-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+90                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+90-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+90-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+91            </intent-filter>
+92            <intent-filter>
+92-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+93                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+93-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+93-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+94            </intent-filter>
+95            <intent-filter>
+95-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+96                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+96-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+96-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/sarthak/.gradle/caches/8.11.1/transforms/a25c1d7031cda119bd8d46af2188772f/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+97            </intent-filter>
+98        </receiver>
+99    </application>
+100
+101</manifest>

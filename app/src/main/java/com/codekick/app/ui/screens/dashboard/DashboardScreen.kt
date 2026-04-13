@@ -162,7 +162,7 @@ fun DashboardScreen(
                     onClick = { navController.navigate("learn") }
                 )
                 QuickActionCard(
-                    icon = Icons.Outlined.LocalFire,
+                    icon = Icons.Outlined.Whatshot,
                     title = "View Progress",
                     subtitle = "Activity heatmap",
                     modifier = Modifier.weight(1f),
@@ -200,7 +200,7 @@ fun DashboardScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Icon(Icons.Outlined.LocalFire, null, tint = AccentOrange, modifier = Modifier.size(16.dp))
+                                Icon(Icons.Outlined.Whatshot, null, tint = AccentOrange, modifier = Modifier.size(16.dp))
                                 Text("Current Streak", style = MaterialTheme.typography.bodySmall)
                             }
                             Text(
