@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme/ThemeContext';
 import { aimlRoadmapSteps, aimlStepResources } from '../../utils/constants';
@@ -14,7 +14,7 @@ const AimlStepScreen: React.FC<{ route: any }> = ({ route }) => {
       style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.listContent}
       data={aimlStepResources}
-      keyExtractor={(item) => item}
+      keyExtractor={(item) => item.title}
       ListHeaderComponent={
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.foreground }]}>
@@ -24,11 +24,14 @@ const AimlStepScreen: React.FC<{ route: any }> = ({ route }) => {
       }
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       renderItem={({ item }) => (
-        <View style={[styles.card, { backgroundColor: colors.card }]}>
+        <TouchableOpacity 
+          style={[styles.card, { backgroundColor: colors.card }]}
+          onPress={() => item.url && Linking.openURL(item.url)}
+        >
           <Ionicons name="play-circle-outline" size={20} color={colors.secondary} />
-          <Text style={[styles.text, { color: colors.foreground }]}>{item}</Text>
+          <Text style={[styles.text, { color: colors.foreground }]}>{item.title}</Text>
           <Ionicons name="open-outline" size={16} color={colors.muted} />
-        </View>
+        </TouchableOpacity>
       )}
     />
   );

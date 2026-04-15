@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme/ThemeContext';
 import { web2Tracks } from '../../utils/constants';
@@ -12,7 +12,7 @@ const Web2TrackScreen: React.FC = () => {
       style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.listContent}
       data={web2Tracks}
-      keyExtractor={(_, i) => String(i)}
+      keyExtractor={(item) => item.title}
       ListHeaderComponent={
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.foreground }]}>Web2 Track</Text>
@@ -22,17 +22,20 @@ const Web2TrackScreen: React.FC = () => {
         </View>
       }
       ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-      renderItem={({ item: [title, desc], index }) => (
-        <View style={[styles.card, { backgroundColor: colors.card }]}>
+      renderItem={({ item, index }) => (
+        <TouchableOpacity 
+          style={[styles.card, { backgroundColor: colors.card }]}
+          onPress={() => item.url && Linking.openURL(item.url)}
+        >
           <View style={[styles.stepBadge, { backgroundColor: colors.secondary + '26' }]}>
             <Text style={[styles.stepNumber, { color: colors.secondary }]}>{index + 1}</Text>
           </View>
           <View style={styles.info}>
-            <Text style={[styles.name, { color: colors.foreground }]}>{title}</Text>
-            <Text style={[styles.desc, { color: colors.muted }]}>{desc}</Text>
+            <Text style={[styles.name, { color: colors.foreground }]}>{item.title}</Text>
+            <Text style={[styles.desc, { color: colors.muted }]}>{item.desc}</Text>
           </View>
           <Ionicons name="chevron-forward" size={20} color={colors.muted} />
-        </View>
+        </TouchableOpacity>
       )}
     />
   );

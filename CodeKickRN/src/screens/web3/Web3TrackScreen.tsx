@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme/ThemeContext';
 import { web3Modules } from '../../utils/constants';
@@ -12,7 +12,7 @@ const Web3TrackScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.listContent}
       data={web3Modules}
-      keyExtractor={(_, i) => String(i)}
+      keyExtractor={(item) => item.title}
       ListHeaderComponent={
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.foreground }]}>Web3 Track</Text>
@@ -31,16 +31,20 @@ const Web3TrackScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         </TouchableOpacity>
       }
       ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-      renderItem={({ item: [title, desc], index }) => (
-        <View style={[styles.card, { backgroundColor: colors.card }]}>
+      renderItem={({ item, index }) => (
+        <TouchableOpacity 
+          style={[styles.card, { backgroundColor: colors.card }]}
+          onPress={() => item.url && Linking.openURL(item.url)}
+        >
           <View style={[styles.stepBadge, { backgroundColor: colors.secondary + '26' }]}>
             <Text style={[styles.stepNumber, { color: colors.secondary }]}>{index + 1}</Text>
           </View>
           <View style={styles.info}>
-            <Text style={[styles.name, { color: colors.foreground }]}>{title}</Text>
-            <Text style={[styles.desc, { color: colors.muted }]}>{desc}</Text>
+            <Text style={[styles.name, { color: colors.foreground }]}>{item.title}</Text>
+            <Text style={[styles.desc, { color: colors.muted }]}>{item.desc}</Text>
           </View>
-        </View>
+          <Ionicons name="chevron-forward" size={20} color={colors.muted} />
+        </TouchableOpacity>
       )}
     />
   );

@@ -116,65 +116,65 @@ export const cpLevels = [
 // ─── CP Resources ───────────────────────────────────────────────────────────
 
 export const cpResources = [
-  "Striver's DSA Sheet — 180 Problems",
-  'NeetCode 150 — Curated Problem List',
-  'Codeforces — Competitive Programming',
-  'LeetCode — Interview Prep Problems',
-  'GeeksforGeeks — Concept Articles',
-  'CP-Algorithms — Advanced Techniques',
+  { title: "Striver's DSA Sheet — 180 Problems", url: "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" },
+  { title: 'NeetCode 150 — Curated Problem List', url: "https://neetcode.io/practice" },
+  { title: 'Codeforces — Competitive Programming', url: "https://codeforces.com/" },
+  { title: 'LeetCode — Interview Prep Problems', url: "https://leetcode.com/problemset/all/" },
+  { title: 'GeeksforGeeks — Concept Articles', url: "https://www.geeksforgeeks.org/data-structures/" },
+  { title: 'CP-Algorithms — Advanced Techniques', url: "https://cp-algorithms.com/" },
 ];
 
 // ─── CP Blogs ───────────────────────────────────────────────────────────────
 
 export const cpBlogs = [
-  'Codeforces Round #945: Editorial',
-  'How to approach Dynamic Programming problems',
-  'Graph algorithms you must know for interviews',
-  'Binary Search: From basics to advanced patterns',
-  'Top 10 Segment Tree problems',
+  { title: 'Codeforces Round #945: Editorial', url: 'https://codeforces.com/blog/entry/129331' },
+  { title: 'How to approach Dynamic Programming problems', url: 'https://medium.com/@george.seif94/a-graphic-approach-to-dynamic-programming-25cbfa8ea81b' },
+  { title: 'Graph algorithms you must know for interviews', url: 'https://www.geeksforgeeks.org/top-10-interview-questions-on-depth-first-search-dfs/' },
+  { title: 'Binary Search: From basics to advanced patterns', url: 'https://leetcode.com/discuss/general-discussion/786126/python-powerful-ultimate-binary-search-template-solved-many-problems' },
+  { title: 'Top 10 Segment Tree problems', url: 'https://cp-algorithms.com/data_structures/segment_tree.html' },
 ];
 
 // ─── AIML Roadmap — mirrors AimlScreens.kt ──────────────────────────────────
 
-export const aimlRoadmapSteps: [string, string][] = [
-  ['Linear Algebra & Calculus', 'Math foundations for ML'],
-  ['Python & NumPy', 'Core programming tools'],
-  ['Statistics & Probability', 'Statistical foundations'],
-  ['Machine Learning Basics', 'Supervised & unsupervised'],
-  ['Neural Networks', 'Deep learning foundations'],
-  ['Computer Vision', 'CNNs & image processing'],
-  ['Natural Language Processing', 'Transformers & LLMs'],
-  ['MLOps & Deployment', 'Production-ready models'],
+export const aimlRoadmapSteps: { title: string; desc: string; url?: string }[] = [
+  { title: 'Linear Algebra & Calculus', desc: 'Math foundations for ML' },
+  { title: 'Python & NumPy', desc: 'Core programming tools' },
+  { title: 'Statistics & Probability', desc: 'Statistical foundations' },
+  { title: 'Machine Learning Basics', desc: 'Supervised & unsupervised' },
+  { title: 'Neural Networks', desc: 'Deep learning foundations' },
+  { title: 'Computer Vision', desc: 'CNNs & image processing' },
+  { title: 'Natural Language Processing', desc: 'Transformers & LLMs' },
+  { title: 'MLOps & Deployment', desc: 'Production-ready models' },
 ];
 
 export const aimlStepResources = [
-  'Video Lectures',
-  'Notes & Articles',
-  'Hands-on Projects',
-  'Practice Exercises',
-  'Community Forums',
+  { title: 'Video Lectures', url: 'https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMlWvxc34U9' },
+  { title: 'Notes & Articles', url: 'https://towardsdatascience.com/' },
+  { title: 'Hands-on Projects', url: 'https://www.kaggle.com/' },
+  { title: 'Practice Exercises', url: 'https://github.com/GokuMohandas/Made-With-ML' },
+  { title: 'Community Forums', url: 'https://www.reddit.com/r/MachineLearning/' },
 ];
 
-export const aimlPapers: [string, string][] = [
-  ['Attention Is All You Need (Transformers)', 'Vaswani et al., 2017'],
-  ['BERT: Pre-training of Deep Bidirectional Transformers', 'Devlin et al., 2018'],
-  ['GPT-3: Language Models are Few-Shot Learners', 'Brown et al., 2020'],
-  ['ResNet: Deep Residual Learning for Image Recognition', 'He et al., 2015'],
-  ['AlphaFold: Protein Structure Prediction', 'Jumper et al., 2021'],
-  ['Stable Diffusion: High-Resolution Image Synthesis', 'Rombach et al., 2022'],
+export const aimlPapers: { title: string; author: string; url: string }[] = [
+  { title: 'Attention Is All You Need (Transformers)', author: 'Vaswani et al., 2017', url: 'https://arxiv.org/abs/1706.03762' },
+  { title: 'BERT: Pre-training of Deep Bidirectional Transformers', author: 'Devlin et al., 2018', url: 'https://arxiv.org/abs/1810.04805' },
+  { title: 'GPT-3: Language Models are Few-Shot Learners', author: 'Brown et al., 2020', url: 'https://arxiv.org/abs/2005.14165' },
+  { title: 'ResNet: Deep Residual Learning for Image Recognition', author: 'He et al., 2015', url: 'https://arxiv.org/abs/1512.03385' },
+  { title: 'AlphaFold: Protein Structure Prediction', author: 'Jumper et al., 2021', url: 'https://www.nature.com/articles/s41586-021-03819-2' },
+  { title: 'Stable Diffusion: High-Resolution Image Synthesis', author: 'Rombach et al., 2022', url: 'https://arxiv.org/abs/2112.10752' },
 ];
 
 // ─── Web3 Data — mirrors Web3Screens.kt ─────────────────────────────────────
 
-export const web3Modules: [string, string][] = [
-  ['Blockchain Fundamentals', 'Blocks, chains, consensus, wallets'],
-  ['Smart Contracts with Solidity', 'ERC standards, events, gas'],
-  ['Ethereum Development', 'Hardhat, Foundry, testing'],
-  ['DeFi Protocols', 'Uniswap, Aave, lending/borrowing'],
-  ['NFT Development', 'ERC-721, ERC-1155, metadata'],
-  ['Web3 Frontend', 'ethers.js, wagmi, RainbowKit'],
-  ['Security Auditing', 'Common vulnerabilities, reentrancy'],
-  ['Layer 2 Scaling', 'Optimism, Arbitrum, zkSync'],
+export const web3Modules: { title: string; desc: string; url: string }[] = [
+  { title: 'Blockchain Fundamentals', desc: 'Blocks, chains, consensus, wallets', url: 'https://bitcoin.org/bitcoin.pdf' },
+  { title: 'Smart Contracts with Solidity', desc: 'ERC standards, events, gas', url: 'https://docs.soliditylang.org/' },
+  { title: 'Ethereum Development', desc: 'Hardhat, Foundry, testing', url: 'https://ethereum.org/en/developers/' },
+  { title: 'DeFi Protocols', desc: 'Uniswap, Aave, lending/borrowing', url: 'https://docs.uniswap.org/' },
+  { title: 'NFT Development', desc: 'ERC-721, ERC-1155, metadata', url: 'https://eips.ethereum.org/EIPS/eip-721' },
+  { title: 'Web3 Frontend', desc: 'ethers.js, wagmi, RainbowKit', url: 'https://wagmi.sh/' },
+  { title: 'Security Auditing', desc: 'Common vulnerabilities, reentrancy', url: 'https://consensys.github.io/smart-contract-best-practices/' },
+  { title: 'Layer 2 Scaling', desc: 'Optimism, Arbitrum, zkSync', url: 'https://l2beat.com/' },
 ];
 
 export const web3Insights: { name: string; price: string; change: string }[] = [
@@ -186,16 +186,16 @@ export const web3Insights: { name: string; price: string; change: string }[] = [
 
 // ─── Web2 Data — mirrors Web2TrackScreen.kt ─────────────────────────────────
 
-export const web2Tracks: [string, string][] = [
-  ['HTML & CSS Fundamentals', 'Semantic HTML, Flexbox, Grid, Responsive'],
-  ['JavaScript Essentials', 'ES6+, DOM, async/await, APIs'],
-  ['React.js', 'Hooks, state management, routing'],
-  ['Node.js & Express', 'REST APIs, middleware, authentication'],
-  ['Databases', 'PostgreSQL, MongoDB, Supabase'],
-  ['TypeScript', 'Types, generics, decorators'],
-  ['Next.js', 'SSR, SSG, API routes, deployment'],
-  ['Testing', 'Jest, React Testing Library, Cypress'],
-  ['DevOps Basics', 'Git, Docker, CI/CD, Vercel'],
+export const web2Tracks: { title: string; desc: string; url: string }[] = [
+  { title: 'HTML & CSS Fundamentals', desc: 'Semantic HTML, Flexbox, Grid, Responsive', url: 'https://developer.mozilla.org/en-US/docs/Learn' },
+  { title: 'JavaScript Essentials', desc: 'ES6+, DOM, async/await, APIs', url: 'https://javascript.info/' },
+  { title: 'React.js', desc: 'Hooks, state management, routing', url: 'https://react.dev/' },
+  { title: 'Node.js & Express', desc: 'REST APIs, middleware, authentication', url: 'https://expressjs.com/' },
+  { title: 'Databases', desc: 'PostgreSQL, MongoDB, Supabase', url: 'https://supabase.com/docs' },
+  { title: 'TypeScript', desc: 'Types, generics, decorators', url: 'https://www.typescriptlang.org/docs/' },
+  { title: 'Next.js', desc: 'SSR, SSG, API routes, deployment', url: 'https://nextjs.org/docs' },
+  { title: 'Testing', desc: 'Jest, React Testing Library, Cypress', url: 'https://jestjs.io/' },
+  { title: 'DevOps Basics', desc: 'Git, Docker, CI/CD, Vercel', url: 'https://roadmap.sh/devops' },
 ];
 
 // ─── Focus Areas — mirrors LearnTopicScreen.kt ──────────────────────────────

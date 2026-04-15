@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { aimlPapers } from '../../utils/constants';
 
@@ -21,11 +21,14 @@ const AimlPapersScreen: React.FC = () => {
         </View>
       }
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-      renderItem={({ item: [title, authors] }) => (
-        <View style={[styles.card, { backgroundColor: colors.card }]}>
-          <Text style={[styles.paperTitle, { color: colors.foreground }]}>{title}</Text>
-          <Text style={[styles.paperAuthors, { color: colors.muted }]}>{authors}</Text>
-        </View>
+      renderItem={({ item }) => (
+        <TouchableOpacity 
+          style={[styles.card, { backgroundColor: colors.card }]}
+          onPress={() => item.url && Linking.openURL(item.url)}
+        >
+          <Text style={[styles.paperTitle, { color: colors.foreground }]}>{item.title}</Text>
+          <Text style={[styles.paperAuthors, { color: colors.muted }]}>{item.author}</Text>
+        </TouchableOpacity>
       )}
     />
   );
