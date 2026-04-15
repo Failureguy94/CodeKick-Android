@@ -56,9 +56,9 @@ const MainTabs: React.FC = () => {
 
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route }: { route: any }) => ({
         headerShown: false,
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }) => {
           const icons = tabIcons[route.name] || tabIcons.Home;
           return (
             <Ionicons
@@ -92,6 +92,24 @@ const MainTabs: React.FC = () => {
   );
 };
 
+const MainScreen: React.FC = () => {
+  const { colors } = useTheme();
+  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
+
+  return (
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <TopBar
+        isLoggedIn={isLoggedIn}
+        onProfilePress={() => {}}
+      />
+      <View style={{ flex: 1 }}>
+        <MainTabs />
+      </View>
+      {isLoggedIn && <AIChatbotFab />}
+    </View>
+  );
+};
+
 const AppNavigator: React.FC = () => {
   const { colors, isDark } = useTheme();
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
@@ -111,20 +129,7 @@ const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Main">
-          {() => (
-            <View style={{ flex: 1, backgroundColor: colors.background }}>
-              <TopBar
-                isLoggedIn={isLoggedIn}
-                onProfilePress={() => {}}
-              />
-              <View style={{ flex: 1 }}>
-                <MainTabs />
-              </View>
-              {isLoggedIn && <AIChatbotFab />}
-            </View>
-          )}
-        </Stack.Screen>
+        <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhoneScreen} />
         <Stack.Screen
