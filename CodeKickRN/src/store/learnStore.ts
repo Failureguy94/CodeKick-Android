@@ -1,0 +1,65 @@
+import { create } from 'zustand';
+import { learningService } from '../services/learning';
+import { useAuthStore } from './authStore';
+
+// ─── Learn Store — mirrors LearnViewModel.kt ────────────────────────────────
+
+interface LearnState {
+  isGenerating: boolean;
+  generatedNotes: string;
+  currentTopic: string;
+  error: string | null;
+  isSaved: boolean;
+
+  generateNotes: (topic: string, focusArea?: string) => Promise<void>;
+  saveCurrentTopic: () => Promise<void>;
+  clearNotes: () => void;
+}
+
+export const useLearnStore = create<LearnState>((set, get) => ({
+  isGenerating: false,
+  generatedNotes: '',
+  currentTopic: '',
+  error: null,
+  isSaved: false,
+
+  generateNotes: async (topic: string, focusArea?: string) => {
+    if (!topic.trim()) return;
+    set({
+      isGenerating: true,
+      error: null,
+      generatedNotes: '',
+      isSaved: false,
+      currentTopic: topic,
+    });
+    try {
+      const notes = await learningService.generateNotes(topic, focusArea);
+      set({ isGenerating: false, generatedNotes: notes });
+    } catch {
+      set({
+        isGenerating: false,
+        error: 'Failed to generate notes. Please try again.',
+      });
+    }
+  },
+
+  saveCurrentTopic: async () => {
+    const userId = useAuthStore.getState().userId;
+    const { currentTopic, generatedNotes } = get();
+    if (!userId || !currentTopic.trim() || !generatedNotes.trim()) return;
+    try {
+      await learningService.saveTopic(userId, currentTopic, generatedNotes);
+      set({ isSaved: true });
+    } catch {}
+  },
+
+  clearNotes: () => {
+    set({
+      isGenerating: false,
+      generatedNotes: '',
+      currentTopic: '',
+      error: null,
+      isSaved: false,
+    });
+  },
+}));
