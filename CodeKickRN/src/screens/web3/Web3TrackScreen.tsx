@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet, Linking } from 'rea
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme/ThemeContext';
 import { web3Modules } from '../../utils/constants';
+import { openResourceLink } from '../../utils/linking';
 
 const Web3TrackScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { colors } = useTheme();
@@ -34,7 +35,7 @@ const Web3TrackScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       renderItem={({ item, index }) => (
         <TouchableOpacity 
           style={[styles.card, { backgroundColor: colors.card }]}
-          onPress={() => item.url && Linking.openURL(item.url)}
+          onPress={() => item.url && openResourceLink(item.url, navigation)}
         >
           <View style={[styles.stepBadge, { backgroundColor: colors.secondary + '26' }]}>
             <Text style={[styles.stepNumber, { color: colors.secondary }]}>{index + 1}</Text>

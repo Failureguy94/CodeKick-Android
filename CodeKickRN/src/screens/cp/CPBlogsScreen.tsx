@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { cpBlogs } from '../../utils/constants';
+import { openResourceLink } from '../../utils/linking';
 
 const CPBlogsScreen: React.FC = () => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
 
   return (
     <FlatList
@@ -23,7 +26,7 @@ const CPBlogsScreen: React.FC = () => {
       renderItem={({ item }) => (
         <TouchableOpacity 
           style={[styles.card, { backgroundColor: colors.card }]}
-          onPress={() => item.url && Linking.openURL(item.url)}
+          onPress={() => item.url && openResourceLink(item.url, navigation)}
         >
           <Ionicons name="newspaper-outline" size={20} color={colors.secondary} />
           <Text style={[styles.text, { color: colors.foreground }]}>{item.title}</Text>

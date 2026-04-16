@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { cpResources } from '../../utils/constants';
+import { openResourceLink } from '../../utils/linking';
 
 const CPResourcesScreen: React.FC<{ route: any }> = ({ route }) => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
   const { language, level } = route.params;
 
   return (
@@ -26,7 +29,7 @@ const CPResourcesScreen: React.FC<{ route: any }> = ({ route }) => {
       renderItem={({ item }) => (
         <TouchableOpacity 
           style={[styles.card, { backgroundColor: colors.card }]}
-          onPress={() => Linking.openURL(item.url)}
+          onPress={() => openResourceLink(item.url, navigation)}
         >
           <Ionicons name="link" size={20} color={colors.secondary} />
           <Text style={[styles.text, { color: colors.foreground }]}>{item.title}</Text>

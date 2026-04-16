@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Animated, PanResponder } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -40,6 +40,30 @@ const FlipCard: React.FC<FlipCardProps> = ({ domain, onNavigate }) => {
     }).start();
   };
 
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, gestureState) => {
+        // Claim touch only if horizontal swipe is detected
+        return Math.abs(gestureState.dx) > 20 && Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (Math.abs(gestureState.dx) > 50) {
+          if (isFlipped) {
+            handleFlipBack();
+          } else {
+            setIsFlipped(true);
+            Animated.timing(flipAnim, {
+              toValue: 1,
+              duration: 600,
+              useNativeDriver: true,
+            }).start();
+          }
+        }
+      },
+    })
+  ).current;
+
   const frontRotation = flipAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
@@ -61,12 +85,13 @@ const FlipCard: React.FC<FlipCardProps> = ({ domain, onNavigate }) => {
   });
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      activeOpacity={0.9}
-      onPress={handlePress}
-      onLongPress={isFlipped ? handleFlipBack : undefined}
-    >
+    <View style={styles.container} {...panResponder.panHandlers}>
+      <TouchableOpacity
+        style={styles.touchableArea}
+        activeOpacity={0.9}
+        onPress={handlePress}
+        onLongPress={isFlipped ? handleFlipBack : undefined}
+      >
       {/* Front Face */}
       <Animated.View
         style={[
@@ -136,7 +161,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ domain, onNavigate }) => {
           </Text>
         </View>
       </Animated.View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -144,6 +170,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 320,
+  },
+  touchableArea: {
+    flex: 1,
   },
   face: {
     ...StyleSheet.absoluteFillObject,

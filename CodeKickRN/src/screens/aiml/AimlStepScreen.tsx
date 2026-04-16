@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { aimlRoadmapSteps, aimlStepResources } from '../../utils/constants';
+import { openResourceLink } from '../../utils/linking';
 
 const AimlStepScreen: React.FC<{ route: any }> = ({ route }) => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
   const stepIndex = parseInt(route.params.step, 10) - 1;
   const { title } = aimlRoadmapSteps[stepIndex] || { title: 'Unknown' };
 
@@ -26,7 +29,7 @@ const AimlStepScreen: React.FC<{ route: any }> = ({ route }) => {
       renderItem={({ item }) => (
         <TouchableOpacity 
           style={[styles.card, { backgroundColor: colors.card }]}
-          onPress={() => item.url && Linking.openURL(item.url)}
+          onPress={() => item.url && openResourceLink(item.url, navigation)}
         >
           <Ionicons name="play-circle-outline" size={20} color={colors.secondary} />
           <Text style={[styles.text, { color: colors.foreground }]}>{item.title}</Text>

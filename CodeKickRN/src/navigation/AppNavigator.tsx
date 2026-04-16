@@ -35,6 +35,9 @@ import Web3InsightsScreen from '../screens/web3/Web3InsightsScreen';
 // Web2
 import Web2TrackScreen from '../screens/web2/Web2TrackScreen';
 
+// Common
+import ResourceWebViewScreen from '../screens/ResourceWebViewScreen';
+
 // ─── Navigation Structure — mirrors NavGraph.kt ─────────────────────────────
 
 const Stack = createNativeStackNavigator();
@@ -198,6 +201,10 @@ const AppNavigator: React.FC = () => {
         {/* Web2 Track */}
         <Stack.Screen name="Web2Track" component={Web2TrackScreen}
           options={{ headerShown: true, headerTitle: 'Web2', headerBackTitle: 'Back',
+            headerStyle: { backgroundColor: colors.background }, headerTintColor: colors.foreground }} />
+        {/* Common Web View */}
+        <Stack.Screen name="ResourceWebView" component={ResourceWebViewScreen}
+          options={{ headerShown: true, headerTitle: 'Resource', headerBackTitle: 'Back',
             headerStyle: { backgroundColor: colors.background }, headerTintColor: colors.foreground }} />
       </Stack.Navigator>
     </NavigationContainer>

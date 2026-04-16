@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { aimlPapers } from '../../utils/constants';
+import { openResourceLink } from '../../utils/linking';
 
 const AimlPapersScreen: React.FC = () => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
 
   return (
     <FlatList
@@ -24,7 +27,7 @@ const AimlPapersScreen: React.FC = () => {
       renderItem={({ item }) => (
         <TouchableOpacity 
           style={[styles.card, { backgroundColor: colors.card }]}
-          onPress={() => item.url && Linking.openURL(item.url)}
+          onPress={() => item.url && openResourceLink(item.url, navigation)}
         >
           <Text style={[styles.paperTitle, { color: colors.foreground }]}>{item.title}</Text>
           <Text style={[styles.paperAuthors, { color: colors.muted }]}>{item.author}</Text>

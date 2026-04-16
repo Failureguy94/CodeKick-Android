@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { web2Tracks } from '../../utils/constants';
+import { openResourceLink } from '../../utils/linking';
 
 const Web2TrackScreen: React.FC = () => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
 
   return (
     <FlatList
@@ -25,7 +28,7 @@ const Web2TrackScreen: React.FC = () => {
       renderItem={({ item, index }) => (
         <TouchableOpacity 
           style={[styles.card, { backgroundColor: colors.card }]}
-          onPress={() => item.url && Linking.openURL(item.url)}
+          onPress={() => item.url && openResourceLink(item.url, navigation)}
         >
           <View style={[styles.stepBadge, { backgroundColor: colors.secondary + '26' }]}>
             <Text style={[styles.stepNumber, { color: colors.secondary }]}>{index + 1}</Text>
