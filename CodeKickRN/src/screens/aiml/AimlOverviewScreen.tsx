@@ -31,7 +31,7 @@ const AimlOverviewScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
         </TouchableOpacity>
       }
       ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-      renderItem={({ item: [title, desc], index }) => (
+      renderItem={({ item: { title, desc }, index }) => (
         <TouchableOpacity
           style={[styles.card, { backgroundColor: colors.card }]}
           onPress={() => navigation.navigate('AimlStep', { step: String(index + 1) })}

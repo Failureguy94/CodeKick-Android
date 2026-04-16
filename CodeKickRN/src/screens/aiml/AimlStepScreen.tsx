@@ -7,7 +7,7 @@ import { aimlRoadmapSteps, aimlStepResources } from '../../utils/constants';
 const AimlStepScreen: React.FC<{ route: any }> = ({ route }) => {
   const { colors } = useTheme();
   const stepIndex = parseInt(route.params.step, 10) - 1;
-  const [title] = aimlRoadmapSteps[stepIndex] || ['Unknown'];
+  const { title } = aimlRoadmapSteps[stepIndex] || { title: 'Unknown' };
 
   return (
     <FlatList
