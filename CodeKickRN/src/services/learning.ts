@@ -1,6 +1,6 @@
 import { firestoreService } from './firestore';
 
-// ─── Learning Service — Firestore + Grok AI ──────────────────────────────────
+// ─── Learning Service — Firestore + gemini AI ──────────────────────────────────
 
 export interface VideoSuggestion {
   title: string;
@@ -44,17 +44,17 @@ export const learningService = {
   },
 
   /**
-   * Generate notes + video suggestions via Grok AI API.
+   * Generate notes + video suggestions via gemini AI API.
    * Falls back to a placeholder if the API key is not set.
    */
   async generateNotes(topic: string, focusArea?: string): Promise<TopicResult> {
     try {
-      const { generateNotesWithGrok } = await import('./grok');
-      return await generateNotesWithGrok(topic, focusArea);
+      const { generateNotesWithAI } = await import('./gemini');
+      return await generateNotesWithAI(topic, focusArea);
     } catch (e: any) {
-      if (e?.message === 'GROK_NOT_CONFIGURED') {
+      if (e?.message === 'GEMINI_NOT_CONFIGURED') {
         return {
-          notes: `# Notes on: ${topic}\n\n${focusArea ? `**Focus area:** ${focusArea}\n\n` : ''}Add your EXPO_PUBLIC_GROK_API_KEY to .env to generate real AI notes.\n\nGet a free key at https://console.x.ai/\n\nIn the meantime, here are some things to explore:\n- Core concepts of ${topic}\n- Practical applications\n- Common pitfalls\n- Resources and further reading`,
+          notes: `# Notes on: ${topic}\n\n${focusArea ? `**Focus area:** ${focusArea}\n\n` : ''}Add your EXPO_PUBLIC_GEMINI_API_KEY to .env to generate real AI notes.\n\nGet a free key at https://aistudio.google.com/apikey\n\nIn the meantime, here are some things to explore:\n- Core concepts of ${topic}\n- Practical applications\n- Common pitfalls\n- Resources and further reading`,
           videos: [
             { title: `${topic} Tutorial`, searchQuery: `${topic} tutorial for beginners` },
             { title: `${topic} Crash Course`, searchQuery: `${topic} crash course` },

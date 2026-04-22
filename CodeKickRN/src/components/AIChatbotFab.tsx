@@ -59,10 +59,10 @@ const AIChatbotFab: React.FC<AIChatbotFabProps> = ({ visible, onClose }) => {
     // Scroll to bottom
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
 
-    // Call Grok API with conversation history
+    // Call Gemini API with conversation history
     try {
-      const { chatWithGrok } = await import('../services/grok');
-      // Build conversation history for Grok (skip the initial welcome message)
+      const { chatWithAI } = await import('../services/gemini');
+      // Build conversation history (skip the initial welcome message)
       const history = newMessages
         .filter((m) => m.id !== '1')
         .map((m) => ({
@@ -70,7 +70,7 @@ const AIChatbotFab: React.FC<AIChatbotFabProps> = ({ visible, onClose }) => {
           content: m.text,
         }));
 
-      const response = await chatWithGrok(history);
+      const response = await chatWithAI(history);
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: response,

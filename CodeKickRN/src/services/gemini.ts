@@ -1,13 +1,15 @@
-// ─── Grok AI Service — powers both Learn Notes & Chatbot ─────────────────────
-// Uses xAI's Grok API (OpenAI-compatible format)
-// Get your free API key at: https://console.x.ai/
+// ─── Gemini AI Service — powers both Learn Notes & Chatbot ───────────────────
+// Uses Google's Gemini API (free tier available)
+// Get your free API key at: https://aistudio.google.com/apikey
 
-const GROK_API_URL = 'https://api.x.ai/v1/chat/completions';
-const GROK_MODEL = 'grok-3-mini-fast';
+const GEMINI_MODEL = 'gemini-2.5-flash';
 
-interface ChatMessage {
-  role: 'system' | 'user' | 'assistant';
-  content: string;
+function getGeminiUrl(): string {
+  const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+  if (!apiKey || apiKey === 'your_gemini_api_key') {
+    throw new Error('GEMINI_NOT_CONFIGURED');
+  }
+  return `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
 }
 
 export interface VideoSuggestion {
@@ -21,42 +23,84 @@ export interface GeneratedTopicResult {
 }
 
 /**
- * Send a chat completion request to Grok API.
+ * Send a request to Gemini API and return the text response.
  */
-async function grokChat(messages: ChatMessage[]): Promise<string> {
-  const apiKey = process.env.EXPO_PUBLIC_GROK_API_KEY;
+async function geminiChat(systemPrompt: string, userMessage: string): Promise<string> {
+  const url = getGeminiUrl();
 
-  if (!apiKey || apiKey === 'your_grok_api_key') {
-    throw new Error('GROK_NOT_CONFIGURED');
-  }
-
-  const response = await fetch(GROK_API_URL, {
+  const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: GROK_MODEL,
-      messages,
-      temperature: 0.7,
-      max_tokens: 4096,
+      system_instruction: {
+        parts: [{ text: systemPrompt }],
+      },
+      contents: [
+        {
+          role: 'user',
+          parts: [{ text: userMessage }],
+        },
+      ],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 4096,
+      },
     }),
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    console.error('[Grok API Error]', response.status, errText);
-
+    console.error('[Gemini API Error]', response.status, errText);
     if (response.status === 429) {
       throw new Error('Rate limit exceeded. Please try again in a moment.');
     }
-    throw new Error(`Grok API error: ${response.status}`);
+    throw new Error(`Gemini API error: ${response.status}`);
   }
 
   const data = await response.json();
-  const text = data?.choices?.[0]?.message?.content;
-  if (!text) throw new Error('Empty response from Grok');
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error('Empty response from Gemini');
+  return text;
+}
+
+/**
+ * Multi-turn conversation with Gemini.
+ */
+async function geminiConversation(
+  systemPrompt: string,
+  history: { role: string; content: string }[],
+): Promise<string> {
+  const url = getGeminiUrl();
+
+  const contents = history.map((msg) => ({
+    role: msg.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: msg.content }],
+  }));
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      system_instruction: {
+        parts: [{ text: systemPrompt }],
+      },
+      contents,
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 2048,
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    console.error('[Gemini API Error]', response.status, errText);
+    throw new Error(`Gemini API error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error('Empty response from Gemini');
   return text;
 }
 
@@ -98,7 +142,7 @@ The "videos" array should contain 4 objects with YouTube search queries that wou
 
 IMPORTANT: Return ONLY the JSON object, no markdown code blocks, no extra text.`;
 
-export async function generateNotesWithGrok(
+export async function generateNotesWithAI(
   topic: string,
   focusArea?: string,
 ): Promise<GeneratedTopicResult> {
@@ -106,10 +150,7 @@ export async function generateNotesWithGrok(
     ? `Generate comprehensive learning notes for: ${topic}, focusing specifically on: ${focusArea}`
     : `Generate comprehensive learning notes for: ${topic}`;
 
-  const raw = await grokChat([
-    { role: 'system', content: TOPIC_SYSTEM_PROMPT },
-    { role: 'user', content: userPrompt },
-  ]);
+  const raw = await geminiChat(TOPIC_SYSTEM_PROMPT, userPrompt);
 
   // Parse JSON — handle potential markdown code blocks in response
   let cleanContent = raw.trim();
@@ -130,7 +171,6 @@ export async function generateNotesWithGrok(
       videos: Array.isArray(parsed.videos) ? parsed.videos : getDefaultVideos(topic),
     };
   } catch {
-    // Fallback: use raw text as notes with default video suggestions
     return {
       notes: raw,
       videos: getDefaultVideos(topic),
@@ -151,13 +191,8 @@ function getDefaultVideos(topic: string): VideoSuggestion[] {
 
 const CHATBOT_SYSTEM_PROMPT = `You are a helpful AI assistant for CodeKick, a learning platform. Help users with their coding journey, answer questions about programming, suggest learning resources, and provide guidance on CP/DSA, AI/ML, Web3, and Web2 development. Be encouraging and supportive. Keep responses concise but informative. Use emojis occasionally. Format with markdown when useful (bullet points, code blocks).`;
 
-export async function chatWithGrok(
-  conversationHistory: ChatMessage[],
+export async function chatWithAI(
+  conversationHistory: { role: string; content: string }[],
 ): Promise<string> {
-  const messages: ChatMessage[] = [
-    { role: 'system', content: CHATBOT_SYSTEM_PROMPT },
-    ...conversationHistory,
-  ];
-
-  return grokChat(messages);
+  return geminiConversation(CHATBOT_SYSTEM_PROMPT, conversationHistory);
 }
