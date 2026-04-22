@@ -1,76 +1,70 @@
 import { firestoreService } from './firestore';
-import { LearningTopic, LearningActivity } from '../types';
 
-// ─── Learning Service — Firestore replacement for Supabase learning queries ──
+// ─── Learning Service — Firestore + Grok AI ──────────────────────────────────
+
+export interface VideoSuggestion {
+  title: string;
+  searchQuery: string;
+}
+
+export interface TopicResult {
+  notes: string;
+  videos: VideoSuggestion[];
+}
 
 export const learningService = {
-  /** Get recent 5 topics for a user. */
-  async getRecentTopics(userId: string): Promise<LearningTopic[]> {
-    return firestoreService.getRecentTopics(userId);
-  },
-
-  /** Get all topics for a user. */
-  async getAllTopics(userId: string): Promise<LearningTopic[]> {
+  /** Fetch all saved topics for a user. */
+  async getAllTopics(userId: string) {
     return firestoreService.getAllTopics(userId);
   },
 
-  /** Delete a topic by ID. */
-  async deleteTopic(topicId: string): Promise<void> {
-    return firestoreService.deleteTopic(topicId);
+  /** Fetch recent 5 topics for dashboard. */
+  async getRecentTopics(userId: string) {
+    return firestoreService.getRecentTopics(userId);
   },
 
-  /** Get today's activity for a user. */
-  async getTodayActivity(userId: string): Promise<LearningActivity> {
-    return firestoreService.getTodayActivity(userId);
-  },
-
-  /** Get activity history (up to 365 days). */
-  async getActivityHistory(userId: string): Promise<LearningActivity[]> {
+  /** Fetch activity history for streak/dashboard. */
+  async getActivityHistory(userId: string) {
     return firestoreService.getActivityHistory(userId);
   },
 
-  /** Get total topics count for a user. */
-  async getTotalTopicsCount(userId: string): Promise<number> {
+  /** Get today's activity */
+  async getTodayActivity(userId: string) {
+    return firestoreService.getTodayActivity(userId);
+  },
+
+  /** Get total topics count */
+  async getTotalTopicsCount(userId: string) {
     return firestoreService.getTotalTopicsCount(userId);
   },
 
+  /** Delete a topic */
+  async deleteTopic(topicId: string) {
+    return firestoreService.deleteTopic(topicId);
+  },
+
   /**
-   * Generate notes via Gemini API (direct call, no Supabase edge function).
+   * Generate notes + video suggestions via Grok AI API.
    * Falls back to a placeholder if the API key is not set.
    */
-  async generateNotes(topic: string, focusArea?: string): Promise<string> {
-    const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
-    if (!apiKey) {
-      // Stub response for development
-      return `# Notes on: ${topic}\n\n${focusArea ? `**Focus area:** ${focusArea}\n\n` : ''}Add your EXPO_PUBLIC_GEMINI_API_KEY to .env to generate real AI notes.\n\nIn the meantime, here are some things to explore:\n- Core concepts of ${topic}\n- Practical applications\n- Common pitfalls\n- Resources and further reading`;
-    }
-
-    const body = {
-      contents: [
-        {
-          parts: [
-            {
-              text: `Generate concise, structured learning notes about the topic: "${topic}"${focusArea ? `, focusing specifically on: "${focusArea}"` : ''}. Use markdown formatting with headers, bullet points, and code examples where appropriate. Keep it practical and beginner-friendly.`,
-            },
+  async generateNotes(topic: string, focusArea?: string): Promise<TopicResult> {
+    try {
+      const { generateNotesWithGrok } = await import('./grok');
+      return await generateNotesWithGrok(topic, focusArea);
+    } catch (e: any) {
+      if (e?.message === 'GROK_NOT_CONFIGURED') {
+        return {
+          notes: `# Notes on: ${topic}\n\n${focusArea ? `**Focus area:** ${focusArea}\n\n` : ''}Add your EXPO_PUBLIC_GROK_API_KEY to .env to generate real AI notes.\n\nGet a free key at https://console.x.ai/\n\nIn the meantime, here are some things to explore:\n- Core concepts of ${topic}\n- Practical applications\n- Common pitfalls\n- Resources and further reading`,
+          videos: [
+            { title: `${topic} Tutorial`, searchQuery: `${topic} tutorial for beginners` },
+            { title: `${topic} Crash Course`, searchQuery: `${topic} crash course` },
+            { title: `${topic} Explained`, searchQuery: `${topic} explained simply` },
+            { title: `Advanced ${topic}`, searchQuery: `advanced ${topic} tutorial` },
           ],
-        },
-      ],
-    };
-
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      },
-    );
-
-    if (!response.ok) throw new Error('Failed to generate notes');
-    const data = await response.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) throw new Error('Empty response from AI');
-    return text;
+        };
+      }
+      throw e;
+    }
   },
 
   /** Save a topic with generated notes. */

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -53,45 +53,86 @@ const tabIcons: Record<string, { active: IoniconsName; inactive: IoniconsName }>
   Dashboard: { active: 'stats-chart', inactive: 'stats-chart-outline' },
 };
 
+// Placeholder screen for the AI tab (actual chat opens from custom button)
+const AIChatPlaceholder: React.FC = () => <View />;
+
 const MainTabs: React.FC = () => {
   const { colors } = useTheme();
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
+  const [chatVisible, setChatVisible] = useState(false);
 
   return (
-    <Tab.Navigator
-      screenOptions={({ route }: { route: any }) => ({
-        headerShown: false,
-        tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }) => {
-          const icons = tabIcons[route.name] || tabIcons.Home;
-          return (
-            <Ionicons
-              name={focused ? icons.active : icons.inactive}
-              size={size}
-              color={color}
-            />
-          );
-        },
-        tabBarActiveTintColor: colors.foreground,
-        tabBarInactiveTintColor: colors.muted,
-        tabBarStyle: {
-          backgroundColor: colors.background,
-          borderTopColor: colors.border,
-          borderTopWidth: 1,
-          paddingTop: 6,
-          height: 60,
-        },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: '500' as const,
-        },
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Domains" component={DomainsScreen} />
-      {isLoggedIn && <Tab.Screen name="Learn" component={LearnTopicScreen} />}
-      {isLoggedIn && <Tab.Screen name="Track" component={TrackScreen} />}
-      {isLoggedIn && <Tab.Screen name="Dashboard" component={DashboardScreen} />}
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator
+        screenOptions={({ route }: { route: any }) => ({
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }) => {
+            const icons = tabIcons[route.name] || tabIcons.Home;
+            return (
+              <Ionicons
+                name={focused ? icons.active : icons.inactive}
+                size={size}
+                color={color}
+              />
+            );
+          },
+          tabBarActiveTintColor: colors.foreground,
+          tabBarInactiveTintColor: colors.muted,
+          tabBarStyle: {
+            backgroundColor: colors.background,
+            borderTopColor: colors.border,
+            borderTopWidth: 1,
+            paddingTop: 6,
+            height: 64,
+          },
+          tabBarLabelStyle: {
+            fontSize: 11,
+            fontWeight: '500' as const,
+          },
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Domains" component={DomainsScreen} />
+        {isLoggedIn && (
+          <Tab.Screen
+            name="AI"
+            component={AIChatPlaceholder}
+            listeners={{
+              tabPress: (e: any) => {
+                e.preventDefault();
+                setChatVisible(true);
+              },
+            }}
+            options={{
+              tabBarLabel: () => null,
+              tabBarIcon: () => (
+                <View style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 28,
+                  backgroundColor: colors.primary,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginBottom: 20,
+                  elevation: 8,
+                  shadowColor: colors.primary,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.35,
+                  shadowRadius: 8,
+                }}>
+                  <Ionicons name="sparkles" size={26} color={colors.onPrimary} />
+                </View>
+              ),
+            }}
+          />
+        )}
+        {isLoggedIn && <Tab.Screen name="Track" component={TrackScreen} />}
+        {isLoggedIn && <Tab.Screen name="Dashboard" component={DashboardScreen} />}
+      </Tab.Navigator>
+      {isLoggedIn && (
+        <AIChatbotFab visible={chatVisible} onClose={() => setChatVisible(false)} />
+      )}
+    </>
   );
 };
 
@@ -108,7 +149,6 @@ const MainScreen: React.FC = () => {
       <View style={{ flex: 1 }}>
         <MainTabs />
       </View>
-      {isLoggedIn && <AIChatbotFab />}
     </View>
   );
 };
@@ -135,6 +175,17 @@ const AppNavigator: React.FC = () => {
         <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhoneScreen} />
+        <Stack.Screen
+          name="Learn"
+          component={LearnTopicScreen}
+          options={{
+            headerShown: true,
+            headerTitle: 'Learn a Topic',
+            headerBackTitle: 'Back',
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.foreground,
+          }}
+        />
         <Stack.Screen
           name="Profile"
           component={ProfileScreen}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator,
+  View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator, Linking,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -11,9 +11,17 @@ import { focusAreas } from '../utils/constants';
 
 const LearnTopicScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { colors } = useTheme();
-  const { isGenerating, generatedNotes, currentTopic, error, isSaved, generateNotes, saveCurrentTopic, clearNotes } = useLearnStore();
+  const {
+    isGenerating, generatedNotes, videoSuggestions, currentTopic,
+    error, isSaved, generateNotes, saveCurrentTopic, clearNotes,
+  } = useLearnStore();
   const [topicInput, setTopicInput] = useState('');
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
+
+  const openYouTubeSearch = (query: string) => {
+    const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+    Linking.openURL(url);
+  };
 
   return (
     <ScrollView
@@ -109,6 +117,7 @@ const LearnTopicScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       {/* Error */}
       {error && (
         <View style={[styles.errorBox, { backgroundColor: colors.accent.red + '20' }]}>
+          <Ionicons name="alert-circle-outline" size={16} color={colors.accent.red} />
           <Text style={[styles.errorText, { color: colors.accent.red }]}>{error}</Text>
         </View>
       )}
@@ -137,13 +146,43 @@ const LearnTopicScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Text style={[styles.notesBody, { color: colors.foreground }]}>{generatedNotes}</Text>
         </View>
       )}
+
+      {/* Video Suggestions */}
+      {videoSuggestions.length > 0 && (
+        <View style={{ gap: 8 }}>
+          <Text style={[styles.videoSectionTitle, { color: colors.foreground }]}>
+            📺 Recommended Videos
+          </Text>
+          {videoSuggestions.map((video, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.videoCard, { backgroundColor: colors.card, borderColor: colors.border }]}
+              onPress={() => openYouTubeSearch(video.searchQuery)}
+              activeOpacity={0.7}
+            >
+              <View style={[styles.videoIcon, { backgroundColor: '#FF0000' + '20' }]}>
+                <Ionicons name="logo-youtube" size={22} color="#FF0000" />
+              </View>
+              <View style={styles.videoInfo}>
+                <Text style={[styles.videoTitle, { color: colors.foreground }]} numberOfLines={2}>
+                  {video.title}
+                </Text>
+                <Text style={[styles.videoHint, { color: colors.muted }]}>
+                  Tap to search on YouTube
+                </Text>
+              </View>
+              <Ionicons name="open-outline" size={16} color={colors.muted} />
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16, gap: 16 },
+  content: { padding: 16, gap: 16, paddingBottom: 40 },
   title: { fontSize: 28, fontWeight: '700' },
   subtitle: { fontSize: 14 },
   inputContainer: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderRadius: 12, paddingHorizontal: 12, height: 52 },
@@ -154,14 +193,33 @@ const styles = StyleSheet.create({
   chip: { borderRadius: 20, paddingHorizontal: 14, paddingVertical: 8, borderWidth: 1 },
   generateBtn: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 12, height: 52, gap: 8 },
   generateText: { fontSize: 14, fontWeight: '500' },
-  errorBox: { borderRadius: 8, padding: 12 },
-  errorText: { fontSize: 12 },
+  errorBox: { flexDirection: 'row', alignItems: 'center', borderRadius: 8, padding: 12, gap: 8 },
+  errorText: { fontSize: 12, flex: 1 },
   notesCard: { borderRadius: 16, padding: 16 },
   notesHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   notesTopic: { fontSize: 16, fontWeight: '700', flex: 1 },
   saveBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 6 },
   notesDivider: { height: 1, marginVertical: 8 },
   notesBody: { fontSize: 14, lineHeight: 22 },
+  videoSectionTitle: { fontSize: 18, fontWeight: '700', marginTop: 8 },
+  videoCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 12,
+    padding: 14,
+    borderWidth: 1,
+    gap: 12,
+  },
+  videoIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  videoInfo: { flex: 1 },
+  videoTitle: { fontSize: 13, fontWeight: '600' },
+  videoHint: { fontSize: 11, marginTop: 2 },
 });
 
 export default LearnTopicScreen;

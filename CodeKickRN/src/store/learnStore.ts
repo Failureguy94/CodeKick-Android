@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { learningService } from '../services/learning';
+import { learningService, VideoSuggestion } from '../services/learning';
 import { useAuthStore } from './authStore';
 
 // ─── Learn Store — mirrors LearnViewModel.kt ────────────────────────────────
@@ -7,6 +7,7 @@ import { useAuthStore } from './authStore';
 interface LearnState {
   isGenerating: boolean;
   generatedNotes: string;
+  videoSuggestions: VideoSuggestion[];
   currentTopic: string;
   error: string | null;
   isSaved: boolean;
@@ -19,6 +20,7 @@ interface LearnState {
 export const useLearnStore = create<LearnState>((set, get) => ({
   isGenerating: false,
   generatedNotes: '',
+  videoSuggestions: [],
   currentTopic: '',
   error: null,
   isSaved: false,
@@ -29,16 +31,21 @@ export const useLearnStore = create<LearnState>((set, get) => ({
       isGenerating: true,
       error: null,
       generatedNotes: '',
+      videoSuggestions: [],
       isSaved: false,
       currentTopic: topic,
     });
     try {
-      const notes = await learningService.generateNotes(topic, focusArea);
-      set({ isGenerating: false, generatedNotes: notes });
-    } catch {
+      const result = await learningService.generateNotes(topic, focusArea);
       set({
         isGenerating: false,
-        error: 'Failed to generate notes. Please try again.',
+        generatedNotes: result.notes,
+        videoSuggestions: result.videos,
+      });
+    } catch (e: any) {
+      set({
+        isGenerating: false,
+        error: e?.message || 'Failed to generate notes. Please try again.',
       });
     }
   },
@@ -57,6 +64,7 @@ export const useLearnStore = create<LearnState>((set, get) => ({
     set({
       isGenerating: false,
       generatedNotes: '',
+      videoSuggestions: [],
       currentTopic: '',
       error: null,
       isSaved: false,
