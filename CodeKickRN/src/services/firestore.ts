@@ -29,7 +29,6 @@ export const firestoreService = {
     username: string,
     fullName: string,
     email: string,
-    phoneNumber: string,
   ): Promise<void> {
     // Write user profile
     await setDoc(doc(db, 'users', uid), {
@@ -37,8 +36,6 @@ export const firestoreService = {
       username: username.trim().toLowerCase(),
       fullName,
       email: email.trim().toLowerCase(),
-      phoneNumber,
-      phoneVerified: false,
       createdAt: serverTimestamp(),
     });
 

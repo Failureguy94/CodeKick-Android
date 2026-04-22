@@ -22,7 +22,6 @@ export const authService = {
     fullName: string,
     email: string,
     password: string,
-    phoneNumber: string,
   ): Promise<User> {
     // Check username is available before creating the auth user
     const taken = await firestoreService.isUsernameTaken(username);
@@ -34,7 +33,7 @@ export const authService = {
     await updateProfile(user, { displayName: fullName });
 
     // Create Firestore profile + username mapping
-    await firestoreService.createProfile(user.uid, username, fullName, email, phoneNumber);
+    await firestoreService.createProfile(user.uid, username, fullName, email);
 
     return user;
   },

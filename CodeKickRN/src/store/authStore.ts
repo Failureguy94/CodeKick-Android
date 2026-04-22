@@ -19,7 +19,6 @@ interface AuthState {
     fullName: string,
     email: string,
     password: string,
-    phoneNumber: string,
   ) => Promise<void>;
   signOut: () => Promise<void>;
   clearState: () => void;
@@ -73,7 +72,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   // ─── Sign Up (direct, no OTP) ────────────────────────────────────────────
-  signUp: async (username, fullName, email, password, phoneNumber) => {
+  signUp: async (username, fullName, email, password) => {
     if (!validateUsername(username)) {
       set({ error: 'Username: 3+ chars, letters/numbers/underscores only' });
       return;
@@ -90,14 +89,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ error: 'Password must be at least 6 characters.' });
       return;
     }
-    if (phoneNumber.trim().length < 10) {
-      set({ error: 'Please enter a valid phone number.' });
-      return;
-    }
 
     set({ isLoading: true, error: null });
     try {
-      const user = await authService.signUp(username, fullName, email, password, phoneNumber);
+      const user = await authService.signUp(username, fullName, email, password);
       set({
         isLoading: false,
         success: true,

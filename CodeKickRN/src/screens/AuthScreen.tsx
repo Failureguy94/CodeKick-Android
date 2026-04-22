@@ -31,7 +31,6 @@ const AuthScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   useEffect(() => {
@@ -47,15 +46,14 @@ const AuthScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   };
 
   const handleSignIn = () => signIn(loginInput, loginPassword);
-  const handleSignUp = () => signUp(username, fullName, email, password, phone);
+  const handleSignUp = () => signUp(username, fullName, email, password);
 
   const isSignInReady = loginInput.trim().length > 0 && loginPassword.length >= 6;
   const isSignUpReady =
     fullName.trim().length > 0 &&
     username.trim().length >= 3 &&
     email.includes('@') &&
-    password.length >= 6 &&
-    phone.trim().length >= 10;
+    password.length >= 6;
 
   return (
     <ScrollView
@@ -234,21 +232,7 @@ const AuthScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
                 </View>
               </View>
 
-              {/* Phone Number */}
-              <View>
-                <Text style={[styles.fieldLabel, { color: colors.muted }]}>Phone Number</Text>
-                <View style={[styles.inputContainer, { borderColor: colors.border }]}>
-                  <Ionicons name="call-outline" size={18} color={colors.muted} style={styles.inputIcon} />
-                  <TextInput
-                    value={phone}
-                    onChangeText={setPhone}
-                    placeholder="+91 9876543210"
-                    placeholderTextColor={colors.muted}
-                    keyboardType="phone-pad"
-                    style={[styles.input, { color: colors.foreground }]}
-                  />
-                </View>
-              </View>
+
             </>
           )}
 
