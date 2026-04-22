@@ -1,139 +1,80 @@
-import { supabase } from './supabase';
+import { firestoreService } from './firestore';
 import { LearningTopic, LearningActivity } from '../types';
-import { formatDate } from '../utils/helpers';
 
-// ─── Learning Service — mirrors LearningRepository.kt ───────────────────────
+// ─── Learning Service — Firestore replacement for Supabase learning queries ──
 
 export const learningService = {
-  /**
-   * Get recent 5 topics for a user.
-   * Mirrors LearningRepository.getRecentTopics()
-   */
+  /** Get recent 5 topics for a user. */
   async getRecentTopics(userId: string): Promise<LearningTopic[]> {
-    try {
-      const { data, error } = await supabase
-        .from('learning_topics')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(5);
-      if (error) throw error;
-      return (data as LearningTopic[]) || [];
-    } catch {
-      return [];
-    }
+    return firestoreService.getRecentTopics(userId);
   },
 
-  /**
-   * Get all topics for a user.
-   * Mirrors LearningRepository.getAllTopics()
-   */
+  /** Get all topics for a user. */
   async getAllTopics(userId: string): Promise<LearningTopic[]> {
-    try {
-      const { data, error } = await supabase
-        .from('learning_topics')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      return (data as LearningTopic[]) || [];
-    } catch {
-      return [];
-    }
+    return firestoreService.getAllTopics(userId);
   },
 
-  /**
-   * Delete a topic.
-   * Mirrors LearningRepository.deleteTopic()
-   */
+  /** Delete a topic by ID. */
   async deleteTopic(topicId: string): Promise<void> {
-    await supabase.from('learning_topics').delete().eq('id', topicId);
+    return firestoreService.deleteTopic(topicId);
   },
 
-  /**
-   * Get today's activity for a user.
-   * Mirrors LearningRepository.getTodayActivity()
-   */
+  /** Get today's activity for a user. */
   async getTodayActivity(userId: string): Promise<LearningActivity> {
-    const today = formatDate();
-    try {
-      const { data, error } = await supabase
-        .from('learning_activity')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('activity_date', today)
-        .single();
-      if (error || !data) {
-        return { user_id: userId, activity_date: today, topics_count: 0, notes_generated: 0 };
-      }
-      return data as LearningActivity;
-    } catch {
-      return { user_id: userId, activity_date: today, topics_count: 0, notes_generated: 0 };
-    }
+    return firestoreService.getTodayActivity(userId);
   },
 
-  /**
-   * Get activity history (up to 365 days).
-   * Mirrors LearningRepository.getActivityHistory()
-   */
+  /** Get activity history (up to 365 days). */
   async getActivityHistory(userId: string): Promise<LearningActivity[]> {
-    try {
-      const { data, error } = await supabase
-        .from('learning_activity')
-        .select('*')
-        .eq('user_id', userId)
-        .order('activity_date', { ascending: false })
-        .limit(365);
-      if (error) throw error;
-      return (data as LearningActivity[]) || [];
-    } catch {
-      return [];
-    }
+    return firestoreService.getActivityHistory(userId);
   },
 
-  /**
-   * Get total topics count.
-   * Mirrors LearningRepository.getTotalTopicsCount()
-   */
+  /** Get total topics count for a user. */
   async getTotalTopicsCount(userId: string): Promise<number> {
-    try {
-      const { data, error } = await supabase
-        .from('learning_topics')
-        .select('id')
-        .eq('user_id', userId);
-      if (error) throw error;
-      return data?.length || 0;
-    } catch {
-      return 0;
-    }
+    return firestoreService.getTotalTopicsCount(userId);
   },
 
   /**
-   * Generate notes via Supabase Edge Function.
-   * Mirrors LearningRepository.generateNotes()
+   * Generate notes via Gemini API (direct call, no Supabase edge function).
+   * Falls back to a placeholder if the API key is not set.
    */
   async generateNotes(topic: string, focusArea?: string): Promise<string> {
-    const body: Record<string, string> = { topic };
-    if (focusArea) body.focus_area = focusArea;
+    const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+    if (!apiKey) {
+      // Stub response for development
+      return `# Notes on: ${topic}\n\n${focusArea ? `**Focus area:** ${focusArea}\n\n` : ''}Add your EXPO_PUBLIC_GEMINI_API_KEY to .env to generate real AI notes.\n\nIn the meantime, here are some things to explore:\n- Core concepts of ${topic}\n- Practical applications\n- Common pitfalls\n- Resources and further reading`;
+    }
 
-    const { data, error } = await supabase.functions.invoke('generate-notes', {
-      body,
-    });
-    if (error) throw error;
-    // The edge function returns text content
-    return typeof data === 'string' ? data : JSON.stringify(data);
+    const body = {
+      contents: [
+        {
+          parts: [
+            {
+              text: `Generate concise, structured learning notes about the topic: "${topic}"${focusArea ? `, focusing specifically on: "${focusArea}"` : ''}. Use markdown formatting with headers, bullet points, and code examples where appropriate. Keep it practical and beginner-friendly.`,
+            },
+          ],
+        },
+      ],
+    };
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      },
+    );
+
+    if (!response.ok) throw new Error('Failed to generate notes');
+    const data = await response.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) throw new Error('Empty response from AI');
+    return text;
   },
 
-  /**
-   * Save a topic with generated notes.
-   * Mirrors LearningRepository.saveTopic()
-   */
+  /** Save a topic with generated notes. */
   async saveTopic(userId: string, topic: string, notes: string): Promise<void> {
-    const { error } = await supabase.from('learning_topics').insert({
-      user_id: userId,
-      topic,
-      notes,
-    });
-    if (error) throw error;
+    return firestoreService.saveTopic(userId, topic, notes);
   },
 };

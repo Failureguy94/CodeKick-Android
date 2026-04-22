@@ -4,9 +4,10 @@ export interface Profile {
   id: string;
   username: string;
   full_name: string;
+  email?: string;
   phone_verified: boolean;
   created_at: string;
-  avatar: string | null;
+  avatar?: string | null;
 }
 
 export interface LearningTopic {

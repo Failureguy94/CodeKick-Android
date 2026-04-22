@@ -21,11 +21,25 @@ const Web3InsightsScreen: React.FC = () => {
         const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,matic-network&vs_currencies=usd&include_24hr_change=true');
         const json = await response.json();
         
+        const fmt = (coin: any) => {
+          if (!coin || coin.usd == null) return { price: 'N/A', change: 'N/A' };
+          const change = coin.usd_24h_change ?? 0;
+          return {
+            price: `$${coin.usd.toLocaleString()}`,
+            change: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+          };
+        };
+
+        const btc = fmt(json?.bitcoin);
+        const eth = fmt(json?.ethereum);
+        const sol = fmt(json?.solana);
+        const pol = fmt(json?.['matic-network']);
+
         setData([
-          { name: 'Bitcoin', price: `$${json.bitcoin.usd.toLocaleString()}`, change: `${json.bitcoin.usd_24h_change >= 0 ? '+' : ''}${json.bitcoin.usd_24h_change.toFixed(2)}%` },
-          { name: 'Ethereum', price: `$${json.ethereum.usd.toLocaleString()}`, change: `${json.ethereum.usd_24h_change >= 0 ? '+' : ''}${json.ethereum.usd_24h_change.toFixed(2)}%` },
-          { name: 'Solana', price: `$${json.solana.usd.toLocaleString()}`, change: `${json.solana.usd_24h_change >= 0 ? '+' : ''}${json.solana.usd_24h_change.toFixed(2)}%` },
-          { name: 'Polygon', price: `$${json['matic-network'].usd.toLocaleString()}`, change: `${json['matic-network'].usd_24h_change >= 0 ? '+' : ''}${json['matic-network'].usd_24h_change.toFixed(2)}%` },
+          { name: 'Bitcoin', ...btc },
+          { name: 'Ethereum', ...eth },
+          { name: 'Solana', ...sol },
+          { name: 'Polygon', ...pol },
         ]);
       } catch (err) {
         console.log('Failed to fetch prices', err);

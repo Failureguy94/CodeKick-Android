@@ -5,7 +5,7 @@ import { authService } from '../services/auth';
 import { calculateStreak } from '../utils/helpers';
 import { useAuthStore } from './authStore';
 
-// ─── Dashboard Store — mirrors DashboardViewModel.kt ────────────────────────
+// ─── Dashboard Store — Firestore-backed ─────────────────────────────────────
 
 interface DashboardState {
   isLoading: boolean;
@@ -53,7 +53,7 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
         totalTopics,
         currentStreak: streak,
         memberSince: profile?.created_at?.substring(0, 10) || '',
-        username: profile?.username || 'Learner',
+        username: profile?.username || useAuthStore.getState().username || 'Learner',
       });
     } catch {
       set({ isLoading: false });

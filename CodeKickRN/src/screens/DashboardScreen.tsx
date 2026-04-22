@@ -10,6 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useDashboardStore } from '../store/dashboardStore';
+import { NeumorphicView } from '../components/Neumorphic';
 
 // ─── DashboardScreen — mirrors DashboardScreen.kt ──────────────────────────
 
@@ -39,7 +40,7 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       </View>
 
       {/* Recent Topics Card */}
-      <View style={[styles.card, { backgroundColor: colors.card }]}>
+      <NeumorphicView style={styles.card}>
         <View style={styles.cardHeader}>
           <View style={styles.cardTitleRow}>
             <Ionicons name="book-outline" size={20} color={colors.secondary} />
@@ -91,7 +92,7 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </View>
           ))
         )}
-      </View>
+      </NeumorphicView>
 
       {/* Quick Actions */}
       <View style={styles.quickActionsRow}>
@@ -122,7 +123,7 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       </View>
 
       {/* Daily Activity */}
-      <View style={[styles.card, { backgroundColor: colors.card }]}>
+      <NeumorphicView style={styles.card}>
         <View style={styles.cardTitleRow}>
           <Ionicons name="time-outline" size={20} color={colors.secondary} />
           <Text style={[styles.cardTitle, { color: colors.foreground }]}>Daily Activity</Text>
@@ -150,10 +151,10 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </Text>
           </View>
         </View>
-      </View>
+      </NeumorphicView>
 
       {/* Total Statistics */}
-      <View style={[styles.card, { backgroundColor: colors.card }]}>
+      <NeumorphicView style={styles.card}>
         <View style={styles.cardTitleRow}>
           <Ionicons name="document-text-outline" size={20} color={colors.secondary} />
           <Text style={[styles.cardTitle, { color: colors.foreground }]}>Total Statistics</Text>
@@ -176,7 +177,7 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </Text>
           </View>
         ) : null}
-      </View>
+      </NeumorphicView>
     </View>
   );
 

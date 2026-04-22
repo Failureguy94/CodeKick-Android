@@ -1,84 +1,91 @@
-import { supabase } from './supabase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  onAuthStateChanged,
+  updateProfile,
+  User,
+} from 'firebase/auth';
+import { auth } from './firebase';
+import { firestoreService } from './firestore';
 import { Profile } from '../types';
-import { buildEmail } from '../utils/helpers';
 
-// ─── Auth Service — mirrors AuthRepository.kt ──────────────────────────────
+// ─── Auth Service — Firebase replacement for Supabase auth ──────────────────
 
 export const authService = {
   /**
-   * Sign up with username-based email trick.
-   * Mirrors AuthRepository.signUp()
+   * Sign up with email, username, full name, password, and phone.
+   * Creates Firebase Auth user + Firestore profile.
    */
-  async signUp(username: string, fullName: string, password: string) {
-    const { data, error } = await supabase.auth.signUp({
-      email: buildEmail(username),
-      password,
-      options: {
-        data: {
-          username: username.trim(),
-          full_name: fullName,
-        },
-      },
-    });
-    if (error) throw error;
-    return data;
-  },
+  async signUp(
+    username: string,
+    fullName: string,
+    email: string,
+    password: string,
+    phoneNumber: string,
+  ): Promise<User> {
+    // Check username is available before creating the auth user
+    const taken = await firestoreService.isUsernameTaken(username);
+    if (taken) throw new Error('USERNAME_TAKEN');
 
-  /**
-   * Sign in with username-based email.
-   * Mirrors AuthRepository.signIn()
-   */
-  async signIn(username: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: buildEmail(username),
-      password,
-    });
-    if (error) throw error;
-    return data;
-  },
+    const { user } = await createUserWithEmailAndPassword(auth, email.trim().toLowerCase(), password);
 
-  /**
-   * Sign out.
-   * Mirrors AuthRepository.signOut()
-   */
-  async signOut() {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-  },
+    // Set display name for Firebase Auth
+    await updateProfile(user, { displayName: fullName });
 
-  /**
-   * Get current user session.
-   */
-  async getCurrentUser() {
-    const { data: { user } } = await supabase.auth.getUser();
+    // Create Firestore profile + username mapping
+    await firestoreService.createProfile(user.uid, username, fullName, email, phoneNumber);
+
     return user;
   },
 
   /**
-   * Get profile from profiles table.
-   * Mirrors AuthRepository.getProfile()
+   * Sign in with username OR email + password.
+   * If input contains '@', treat as email. Otherwise look up username → email.
+   */
+  async signIn(usernameOrEmail: string, password: string): Promise<User> {
+    let email: string;
+
+    if (usernameOrEmail.includes('@')) {
+      // Treat as email directly
+      email = usernameOrEmail.trim().toLowerCase();
+    } else {
+      // Look up username → email in Firestore
+      const mappedEmail = await firestoreService.getEmailByUsername(usernameOrEmail.trim());
+      if (!mappedEmail) throw new Error('USER_NOT_FOUND');
+      email = mappedEmail;
+    }
+
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    return user;
+  },
+
+  /**
+   * Sign out current user.
+   */
+  async signOut(): Promise<void> {
+    await firebaseSignOut(auth);
+  },
+
+  /**
+   * Get the currently authenticated Firebase user.
+   */
+  getCurrentUser(): User | null {
+    return auth.currentUser;
+  },
+
+  /**
+   * Get profile from Firestore by UID.
    */
   async getProfile(userId: string): Promise<Profile | null> {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-      if (error) return null;
-      return data as Profile;
-    } catch {
-      return null;
-    }
+    return firestoreService.getProfile(userId);
   },
 
   /**
    * Listen for auth state changes.
-   * Mirrors sessionStatus flow in AuthViewModel.kt
+   * Returns unsubscribe function.
    */
-  onAuthStateChange(callback: (isLoggedIn: boolean) => void) {
-    return supabase.auth.onAuthStateChange((event, session) => {
-      callback(!!session);
-    });
+  onAuthStateChange(callback: (user: User | null) => void): () => void {
+    return onAuthStateChanged(auth, callback);
   },
 };
