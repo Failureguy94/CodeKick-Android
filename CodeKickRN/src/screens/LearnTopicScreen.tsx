@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useLearnStore } from '../store/learnStore';
 import { focusAreas } from '../utils/constants';
+import MarkdownRenderer from '../components/MarkdownRenderer';
 
 // ─── LearnTopicScreen — mirrors LearnTopicScreen.kt ─────────────────────────
 
@@ -143,7 +144,7 @@ const LearnTopicScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={[styles.notesDivider, { backgroundColor: colors.border }]} />
-          <Text style={[styles.notesBody, { color: colors.foreground }]}>{generatedNotes}</Text>
+          <MarkdownRenderer content={generatedNotes} />
         </View>
       )}
 

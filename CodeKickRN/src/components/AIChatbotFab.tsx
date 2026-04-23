@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
+import MarkdownRenderer from './MarkdownRenderer';
 
 // ─── AI Chatbot — triggered from center tab button ──────────────────────────
 
@@ -151,14 +152,18 @@ const AIChatbotFab: React.FC<AIChatbotFabProps> = ({ visible, onClose }) => {
                   style={styles.aiIcon}
                 />
               )}
-              <Text
-                style={[
-                  styles.messageText,
-                  { color: msg.isUser ? colors.onPrimary : colors.foreground },
-                ]}
-              >
-                {msg.text}
-              </Text>
+              {msg.isUser ? (
+                <Text
+                  style={[
+                    styles.messageText,
+                    { color: colors.onPrimary },
+                  ]}
+                >
+                  {msg.text}
+                </Text>
+              ) : (
+                <MarkdownRenderer content={msg.text} />
+              )}
             </View>
           ))}
           {isTyping && (
