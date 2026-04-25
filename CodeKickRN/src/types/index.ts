@@ -76,6 +76,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Discover: undefined;
   MyTopics: undefined;
+  TopicDetail: { topic: LearningTopic };
   // CP Track
   CPLanguage: undefined;
   CPLevel: { language: string };

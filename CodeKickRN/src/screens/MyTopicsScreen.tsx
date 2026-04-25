@@ -44,12 +44,15 @@ const MyTopicsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           renderItem={({ item }) => (
             <View style={[styles.topicCard, { backgroundColor: colors.card }]}>
-              <View style={styles.topicInfo}>
+              <TouchableOpacity 
+                style={styles.topicInfo}
+                onPress={() => navigation.navigate('TopicDetail', { topic: item })}
+              >
                 <Text style={[styles.topicName, { color: colors.foreground }]}>{item.topic}</Text>
                 <Text style={[styles.topicDate, { color: colors.muted }]}>
                   {item.created_at.substring(0, 10)}
                 </Text>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => deleteTopic(item.id)}>
                 <Ionicons name="trash-outline" size={20} color={colors.accent.red} />
               </TouchableOpacity>

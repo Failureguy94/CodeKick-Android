@@ -113,7 +113,42 @@ export const cpLevels = [
   { id: 'advanced', label: 'Advanced', desc: 'Advanced DP, Network Flow, Segment Trees' },
 ];
 
-// ─── CP Resources ───────────────────────────────────────────────────────────
+// ─── CP Language Tutorial Videos (Beginner level: learn the language first) ──
+
+export const cpLanguageTutorials: Record<string, { title: string; url: string; channel: string }[]> = {
+  cpp: [
+    { title: 'C++ Full Course for Beginners', url: 'https://www.youtube.com/watch?v=8jLOx1hD3_o', channel: 'freeCodeCamp' },
+    { title: 'C++ STL for Competitive Programming', url: 'https://www.youtube.com/watch?v=RRVYpIET_RU', channel: 'Luv' },
+    { title: 'C++ Pointers & References Explained', url: 'https://www.youtube.com/watch?v=rtgwvkaYt1A', channel: 'The Cherno' },
+  ],
+  java: [
+    { title: 'Java Full Course for Beginners', url: 'https://www.youtube.com/watch?v=eIrMbAQSU34', channel: 'Programming with Mosh' },
+    { title: 'Java Collections Framework Tutorial', url: 'https://www.youtube.com/watch?v=GdAon80-0KA', channel: 'Kunal Kushwaha' },
+    { title: 'Java OOP Concepts in One Video', url: 'https://www.youtube.com/watch?v=bSrm9RXwBaI', channel: 'Apna College' },
+  ],
+  python: [
+    { title: 'Python Full Course for Beginners', url: 'https://www.youtube.com/watch?v=_uQrJ0TkZlc', channel: 'Programming with Mosh' },
+    { title: 'Python Data Structures & Algorithms', url: 'https://www.youtube.com/watch?v=pkYVOmU3MgA', channel: 'freeCodeCamp' },
+    { title: 'Python for Competitive Programming', url: 'https://www.youtube.com/watch?v=0K_eZGS5NsU', channel: 'NeetCode' },
+  ],
+  javascript: [
+    { title: 'JavaScript Full Course for Beginners', url: 'https://www.youtube.com/watch?v=PkZNo7MFNFg', channel: 'freeCodeCamp' },
+    { title: 'JavaScript ES6+ Features', url: 'https://www.youtube.com/watch?v=NCwa_xi0Uuc', channel: 'Fireship' },
+    { title: 'JS Arrays & Objects Deep Dive', url: 'https://www.youtube.com/watch?v=R8rmfD9Y5-c', channel: 'Traversy Media' },
+  ],
+  go: [
+    { title: 'Go (Golang) Full Course for Beginners', url: 'https://www.youtube.com/watch?v=un6ZyFkqFKo', channel: 'freeCodeCamp' },
+    { title: 'Go Tutorial — Learn Go in 1 Hour', url: 'https://www.youtube.com/watch?v=etSN4X_fCnM', channel: 'Programming with Mosh' },
+    { title: 'Concurrency in Go Explained', url: 'https://www.youtube.com/watch?v=LvgVSSpwND8', channel: 'Jake Wright' },
+  ],
+  rust: [
+    { title: 'Rust Full Course for Beginners', url: 'https://www.youtube.com/watch?v=BpPEoZW5IiY', channel: 'freeCodeCamp' },
+    { title: 'Rust in 100 Seconds + Beyond', url: 'https://www.youtube.com/watch?v=5C_HPTJg5ek', channel: 'Fireship' },
+    { title: 'Rust Ownership & Borrowing Explained', url: 'https://www.youtube.com/watch?v=VFIOSWy93H0', channel: 'Let\'s Get Rusty' },
+  ],
+};
+
+// ─── CP Resources (common DSA sheets & platforms — same for all languages) ──
 
 export const cpResources = [
   { title: "Striver's DSA Sheet — 180 Problems", url: "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" },
@@ -164,17 +199,17 @@ export const aimlPapers: { title: string; author: string; url: string }[] = [
   { title: 'Stable Diffusion: High-Resolution Image Synthesis', author: 'Rombach et al., 2022', url: 'https://arxiv.org/abs/2112.10752' },
 ];
 
-// ─── Web3 Data — mirrors Web3Screens.kt ─────────────────────────────────────
+// ─── Web3 Data — YouTube tutorials that actually work ───────────────────────
 
 export const web3Modules: { title: string; desc: string; url: string }[] = [
-  { title: 'Blockchain Fundamentals', desc: 'Blocks, chains, consensus, wallets', url: 'https://bitcoin.org/bitcoin.pdf' },
-  { title: 'Smart Contracts with Solidity', desc: 'ERC standards, events, gas', url: 'https://docs.soliditylang.org/' },
-  { title: 'Ethereum Development', desc: 'Hardhat, Foundry, testing', url: 'https://ethereum.org/en/developers/' },
-  { title: 'DeFi Protocols', desc: 'Uniswap, Aave, lending/borrowing', url: 'https://docs.uniswap.org/' },
-  { title: 'NFT Development', desc: 'ERC-721, ERC-1155, metadata', url: 'https://eips.ethereum.org/EIPS/eip-721' },
-  { title: 'Web3 Frontend', desc: 'ethers.js, wagmi, RainbowKit', url: 'https://wagmi.sh/' },
-  { title: 'Security Auditing', desc: 'Common vulnerabilities, reentrancy', url: 'https://consensys.github.io/smart-contract-best-practices/' },
-  { title: 'Layer 2 Scaling', desc: 'Optimism, Arbitrum, zkSync', url: 'https://l2beat.com/' },
+  { title: 'Blockchain Fundamentals', desc: 'Blocks, chains, consensus, wallets', url: 'https://www.youtube.com/watch?v=SSo_EIwHSd4' },
+  { title: 'Smart Contracts with Solidity', desc: 'ERC standards, events, gas', url: 'https://www.youtube.com/watch?v=umepbfKp5rI' },
+  { title: 'Ethereum Development — Full Course', desc: 'Hardhat, Foundry, testing', url: 'https://www.youtube.com/watch?v=gyMwXuJrbJQ' },
+  { title: 'DeFi Explained — Full Tutorial', desc: 'Uniswap, Aave, lending/borrowing', url: 'https://www.youtube.com/watch?v=17QRFlml4pA' },
+  { title: 'NFT Development Tutorial', desc: 'ERC-721, ERC-1155, metadata', url: 'https://www.youtube.com/watch?v=fzH7Gjadmj0' },
+  { title: 'Web3 Frontend with ethers.js', desc: 'ethers.js, wagmi, RainbowKit', url: 'https://www.youtube.com/watch?v=a0osIaAOFSE' },
+  { title: 'Smart Contract Security & Auditing', desc: 'Common vulnerabilities, reentrancy', url: 'https://www.youtube.com/watch?v=TmZ8gH-toX0' },
+  { title: 'Layer 2 Scaling Explained', desc: 'Optimism, Arbitrum, zkSync', url: 'https://www.youtube.com/watch?v=9pJjtEeq-N4' },
 ];
 
 export const web3Insights: { name: string; price: string; change: string }[] = [
@@ -184,18 +219,18 @@ export const web3Insights: { name: string; price: string; change: string }[] = [
   { name: 'Polygon', price: '$0.85', change: '-0.5%' },
 ];
 
-// ─── Web2 Data — mirrors Web2TrackScreen.kt ─────────────────────────────────
+// ─── Web2 Data — YouTube tutorials that actually work ───────────────────────
 
 export const web2Tracks: { title: string; desc: string; url: string }[] = [
-  { title: 'HTML & CSS Fundamentals', desc: 'Semantic HTML, Flexbox, Grid, Responsive', url: 'https://developer.mozilla.org/en-US/docs/Learn' },
-  { title: 'JavaScript Essentials', desc: 'ES6+, DOM, async/await, APIs', url: 'https://javascript.info/' },
-  { title: 'React.js', desc: 'Hooks, state management, routing', url: 'https://react.dev/' },
-  { title: 'Node.js & Express', desc: 'REST APIs, middleware, authentication', url: 'https://expressjs.com/' },
-  { title: 'Databases', desc: 'PostgreSQL, MongoDB, Supabase', url: 'https://supabase.com/docs' },
-  { title: 'TypeScript', desc: 'Types, generics, decorators', url: 'https://www.typescriptlang.org/docs/' },
-  { title: 'Next.js', desc: 'SSR, SSG, API routes, deployment', url: 'https://nextjs.org/docs' },
-  { title: 'Testing', desc: 'Jest, React Testing Library, Cypress', url: 'https://jestjs.io/' },
-  { title: 'DevOps Basics', desc: 'Git, Docker, CI/CD, Vercel', url: 'https://roadmap.sh/devops' },
+  { title: 'HTML & CSS Full Course', desc: 'Semantic HTML, Flexbox, Grid, Responsive', url: 'https://www.youtube.com/watch?v=mU6anWqZJcc' },
+  { title: 'JavaScript Full Course (2024)', desc: 'ES6+, DOM, async/await, APIs', url: 'https://www.youtube.com/watch?v=EerdGm-ehJQ' },
+  { title: 'React.js Full Tutorial', desc: 'Hooks, state management, routing', url: 'https://www.youtube.com/watch?v=CgkZ7MvWUAA' },
+  { title: 'Node.js & Express — Crash Course', desc: 'REST APIs, middleware, authentication', url: 'https://www.youtube.com/watch?v=Oe421EPjeBE' },
+  { title: 'MongoDB & Mongoose Tutorial', desc: 'NoSQL database, CRUD, aggregation', url: 'https://www.youtube.com/watch?v=J6mDkcqU_ZE' },
+  { title: 'TypeScript Full Course', desc: 'Types, generics, decorators', url: 'https://www.youtube.com/watch?v=30LWjhZzg50' },
+  { title: 'Next.js 14 Full Tutorial', desc: 'SSR, SSG, API routes, deployment', url: 'https://www.youtube.com/watch?v=wm5gMKuwSYk' },
+  { title: 'Testing with Jest & React Testing Library', desc: 'Unit tests, integration, mocking', url: 'https://www.youtube.com/watch?v=8Xwq35cPwYg' },
+  { title: 'Docker & DevOps for Beginners', desc: 'Git, Docker, CI/CD, deployment', url: 'https://www.youtube.com/watch?v=3c-iBn73dDE' },
 ];
 
 // ─── Focus Areas — mirrors LearnTopicScreen.kt ──────────────────────────────

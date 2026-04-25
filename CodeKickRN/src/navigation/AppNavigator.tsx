@@ -18,6 +18,7 @@ import DashboardScreen from '../screens/DashboardScreen';
 import LearnTopicScreen from '../screens/LearnTopicScreen';
 import TrackScreen from '../screens/TrackScreen';
 import MyTopicsScreen from '../screens/MyTopicsScreen';
+import TopicDetailScreen from '../screens/TopicDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 // CP
@@ -214,6 +215,17 @@ const AppNavigator: React.FC = () => {
           options={{
             headerShown: true,
             headerTitle: 'My Topics',
+            headerBackTitle: 'Back',
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.foreground,
+          }}
+        />
+        <Stack.Screen
+          name="TopicDetail"
+          component={TopicDetailScreen}
+          options={{
+            headerShown: true,
+            headerTitle: 'Notes',
             headerBackTitle: 'Back',
             headerStyle: { backgroundColor: colors.background },
             headerTintColor: colors.foreground,

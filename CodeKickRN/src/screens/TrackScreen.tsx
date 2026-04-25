@@ -11,7 +11,7 @@ import { LearningActivity } from '../types';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const TrackScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { colors } = useTheme();
+  const { colors, isDark } = useTheme();
   const { activityHistory, totalTopics, currentStreak, isLoading, loadData } = useTrackStore();
 
   useEffect(() => { loadData(); }, []);
@@ -52,7 +52,7 @@ const TrackScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       <View style={[styles.heatmapCard, { backgroundColor: colors.card }]}>
         <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Activity Heatmap</Text>
         <Text style={[styles.sectionSub, { color: colors.muted }]}>Last 12 weeks</Text>
-        <ActivityHeatmap activityHistory={activityHistory} colors={colors} />
+        <ActivityHeatmap activityHistory={activityHistory} colors={colors} isDark={isDark} />
       </View>
 
       {/* Milestones */}
@@ -91,9 +91,10 @@ const TrackScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 interface HeatmapProps {
   activityHistory: LearningActivity[];
   colors: any;
+  isDark: boolean;
 }
 
-const ActivityHeatmap: React.FC<HeatmapProps> = ({ activityHistory, colors }) => {
+const ActivityHeatmap: React.FC<HeatmapProps> = ({ activityHistory, colors, isDark }) => {
   const weeks = 12;
   const days = 7;
   const activityMap: Record<string, number> = {};
@@ -117,7 +118,7 @@ const ActivityHeatmap: React.FC<HeatmapProps> = ({ activityHistory, colors }) =>
 
       let fill: string;
       if (count === 0) {
-        fill = colors.surface;
+        fill = isDark ? colors.surface : colors.border;
       } else if (count < 3) {
         fill = colors.accent.green + '66';
       } else if (count < 6) {

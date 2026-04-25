@@ -80,12 +80,15 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           recentTopics.map((topic, index) => (
             <View key={topic.id} style={[styles.topicRow, { backgroundColor: colors.surface + '80' }]}>
               <View style={[styles.topicDot, { backgroundColor: topicColors[index % topicColors.length] }]} />
-              <View style={styles.topicInfo}>
+              <TouchableOpacity
+                style={styles.topicInfo}
+                onPress={() => navigation.navigate('TopicDetail', { topic })}
+              >
                 <Text style={[styles.topicName, { color: colors.foreground }]}>{topic.topic}</Text>
                 <Text style={[styles.topicDate, { color: colors.muted }]}>
                   {topic.created_at.substring(0, 10)}
                 </Text>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => deleteTopic(topic.id)}>
                 <Ionicons name="trash-outline" size={20} color={colors.accent.red} />
               </TouchableOpacity>

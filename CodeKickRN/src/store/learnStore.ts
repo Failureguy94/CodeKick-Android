@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import { learningService, VideoSuggestion } from '../services/learning';
 import { useAuthStore } from './authStore';
+import { useDashboardStore } from './dashboardStore';
+import { useTrackStore } from './trackStore';
+import { useMyTopicsStore } from './myTopicsStore';
 
 // ─── Learn Store — mirrors LearnViewModel.kt ────────────────────────────────
 
@@ -57,6 +60,11 @@ export const useLearnStore = create<LearnState>((set, get) => ({
     try {
       await learningService.saveTopic(userId, currentTopic, generatedNotes);
       set({ isSaved: true });
+      
+      // Refresh the other stores so that heatmap and lists are updated
+      useDashboardStore.getState().loadDashboardData();
+      useTrackStore.getState().loadData();
+      useMyTopicsStore.getState().loadTopics();
     } catch {}
   },
 
