@@ -148,6 +148,24 @@ export const cpLanguageTutorials: Record<string, { title: string; url: string; c
   ],
 };
 
+// ─── CP Intermediate & Advanced Videos ──────────────────────────────────────
+
+export const cpIntermediateTopics = [
+  { title: 'Greedy Algorithms Explained', url: 'https://www.youtube.com/watch?v=bC7o8P_Ste4', channel: 'Abdul Bari' },
+  { title: 'Dynamic Programming Introduction', url: 'https://www.youtube.com/watch?v=oBt53YbR9Kk', channel: 'freeCodeCamp' },
+  { title: 'Graph Theory Full Course', url: 'https://www.youtube.com/watch?v=09_LlHjoEiY', channel: 'freeCodeCamp' },
+  { title: 'Trees in Data Structures', url: 'https://www.youtube.com/watch?v=qH6yxkw0u78', channel: 'mycodeschool' },
+  { title: 'Binary Search Trees (BST)', url: 'https://www.youtube.com/watch?v=pYT9F8_LFTM', channel: 'mycodeschool' },
+];
+
+export const cpAdvancedTopics = [
+  { title: 'Segment Trees Tutorial', url: 'https://www.youtube.com/watch?v=ZBHKZF5w4YU', channel: 'Tushar Roy' },
+  { title: 'Bit Manipulation & Bitmasking', url: 'https://www.youtube.com/watch?v=nlKQEBQ2sIQ', channel: 'Luv' },
+  { title: 'Advanced DP (DP on Trees, Bitmasking)', url: 'https://www.youtube.com/watch?v=nqowUJzG-iM', channel: 'Errichto' },
+  { title: 'Graph Algorithms: Network Flow', url: 'https://www.youtube.com/watch?v=Tl90tNtKvxs', channel: 'WilliamFiset' },
+  { title: 'Advanced Graph Algorithms (LCA, Bridges, Articulation Points)', url: 'https://www.youtube.com/watch?v=jFZsDWHjtRA', channel: 'WilliamFiset' },
+];
+
 // ─── CP Resources (common DSA sheets & platforms — same for all languages) ──
 
 export const cpResources = [

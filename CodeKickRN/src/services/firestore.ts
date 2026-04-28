@@ -86,26 +86,30 @@ export const firestoreService = {
 
   // ─── Learning Topics ──────────────────────────────────────────────────────
 
-  /** Get recent 5 topics for a user */
+  /** Get recent 5 topics */
   async getRecentTopics(userId: string): Promise<LearningTopic[]> {
     try {
       const q = query(
         collection(db, 'learning_topics'),
-        where('userId', '==', userId),
         orderBy('createdAt', 'desc'),
         limit(5),
       );
       const snap = await getDocs(q);
       return snap.docs.map((d) => {
         const data = d.data();
+        let topicName = data.topic;
+        if (!topicName && data.notes) {
+          const match = String(data.notes).match(/##\s+(.*)/);
+          topicName = match ? match[1].trim() : 'Saved Topic';
+        }
         return {
           id: d.id,
-          user_id: data.userId,
-          topic: data.topic,
+          user_id: data.userId || userId,
+          topic: topicName || 'Untitled Topic',
           notes: data.notes,
           created_at: data.createdAt instanceof Timestamp
             ? data.createdAt.toDate().toISOString()
-            : '',
+            : String(data.createdAt || ''),
         } as LearningTopic;
       });
     } catch {
@@ -113,25 +117,29 @@ export const firestoreService = {
     }
   },
 
-  /** Get all topics for a user */
+  /** Get all topics */
   async getAllTopics(userId: string): Promise<LearningTopic[]> {
     try {
       const q = query(
         collection(db, 'learning_topics'),
-        where('userId', '==', userId),
         orderBy('createdAt', 'desc'),
       );
       const snap = await getDocs(q);
       return snap.docs.map((d) => {
         const data = d.data();
+        let topicName = data.topic;
+        if (!topicName && data.notes) {
+          const match = String(data.notes).match(/##\s+(.*)/);
+          topicName = match ? match[1].trim() : 'Saved Topic';
+        }
         return {
           id: d.id,
-          user_id: data.userId,
-          topic: data.topic,
+          user_id: data.userId || userId,
+          topic: topicName || 'Untitled Topic',
           notes: data.notes,
           created_at: data.createdAt instanceof Timestamp
             ? data.createdAt.toDate().toISOString()
-            : '',
+            : String(data.createdAt || ''),
         } as LearningTopic;
       });
     } catch {
@@ -161,7 +169,6 @@ export const firestoreService = {
     try {
       const q = query(
         collection(db, 'learning_topics'),
-        where('userId', '==', userId),
       );
       const snap = await getDocs(q);
       return snap.size;

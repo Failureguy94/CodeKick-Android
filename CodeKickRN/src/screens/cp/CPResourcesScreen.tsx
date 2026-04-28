@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, SectionList } from 'react-nat
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
-import { cpResources, cpLanguageTutorials } from '../../utils/constants';
+import { cpResources, cpLanguageTutorials, cpIntermediateTopics, cpAdvancedTopics } from '../../utils/constants';
 import { openResourceLink } from '../../utils/linking';
 
 interface ResourceItem {
@@ -25,8 +25,9 @@ const CPResourcesScreen: React.FC<{ route: any }> = ({ route }) => {
   const navigation = useNavigation();
   const { language, level } = route.params;
 
-  // Get language-specific tutorials for beginner level
   const tutorials = level === 'beginner' ? (cpLanguageTutorials[language] || []) : [];
+  const intermediateVids = level === 'intermediate' ? cpIntermediateTopics : [];
+  const advancedVids = level === 'advanced' ? cpAdvancedTopics : [];
 
   // Build sections: tutorials first (beginner only), then common DSA resources
   const sections: ResourceSection[] = [
@@ -35,6 +36,32 @@ const CPResourcesScreen: React.FC<{ route: any }> = ({ route }) => {
           title: `📺 Learn ${language.toUpperCase()} First`,
           subtitle: 'Watch these tutorials to build your language foundation',
           data: tutorials.map((t) => ({
+            title: t.title,
+            url: t.url,
+            badge: t.channel,
+            icon: 'logo-youtube',
+            iconColor: '#FF0000',
+          })),
+        }]
+      : []),
+    ...(intermediateVids.length > 0
+      ? [{
+          title: '🔥 Intermediate Topics',
+          subtitle: 'Learn Greedy, DP, Trees & Graphs',
+          data: intermediateVids.map((t) => ({
+            title: t.title,
+            url: t.url,
+            badge: t.channel,
+            icon: 'logo-youtube',
+            iconColor: '#FF0000',
+          })),
+        }]
+      : []),
+    ...(advancedVids.length > 0
+      ? [{
+          title: '🚀 Advanced Topics',
+          subtitle: 'Segment Trees, Bitmasking, Network Flow & Advanced DP',
+          data: advancedVids.map((t) => ({
             title: t.title,
             url: t.url,
             badge: t.channel,

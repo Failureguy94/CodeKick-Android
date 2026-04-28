@@ -13,12 +13,14 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sarthak.codekick"
     },
     "android": {
+      "package": "com.sarthak.codekick",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0d1b2e"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false

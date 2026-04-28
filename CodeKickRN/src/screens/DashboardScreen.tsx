@@ -98,21 +98,35 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       </NeumorphicView>
 
       {/* Quick Actions */}
-      <View style={styles.quickActionsRow}>
+      <View style={{ gap: 12 }}>
+        <View style={styles.quickActionsRow}>
+          <TouchableOpacity
+            style={[styles.quickAction, { backgroundColor: colors.card }]}
+            onPress={() => navigation.navigate('Learn')}
+          >
+            <View style={[styles.quickIconBg, { backgroundColor: colors.secondary + '1A' }]}>
+              <Ionicons name="add" size={24} color={colors.secondary} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.quickTitle, { color: colors.foreground }]}>Learn Topic</Text>
+              <Text style={[styles.quickSub, { color: colors.muted }]}>AI notes</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.quickAction, { backgroundColor: colors.card }]}
+            onPress={() => navigation.navigate('MyTopics')}
+          >
+            <View style={[styles.quickIconBg, { backgroundColor: colors.primary + '1A' }]}>
+              <Ionicons name="library" size={24} color={colors.primary} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.quickTitle, { color: colors.foreground }]}>Saved Topics</Text>
+              <Text style={[styles.quickSub, { color: colors.muted }]}>View notes</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
-          style={[styles.quickAction, { backgroundColor: colors.card }]}
-          onPress={() => navigation.navigate('Learn')}
-        >
-          <View style={[styles.quickIconBg, { backgroundColor: colors.secondary + '1A' }]}>
-            <Ionicons name="add" size={24} color={colors.secondary} />
-          </View>
-          <View>
-            <Text style={[styles.quickTitle, { color: colors.foreground }]}>Learn New Topic</Text>
-            <Text style={[styles.quickSub, { color: colors.muted }]}>Generate AI notes</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.quickAction, { backgroundColor: colors.card }]}
+          style={[styles.quickAction, { backgroundColor: colors.card, width: '100%' }]}
           onPress={() => navigation.navigate('Track')}
         >
           <View style={[styles.quickIconBg, { backgroundColor: colors.accent.orange + '1A' }]}>
@@ -120,7 +134,7 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           </View>
           <View>
             <Text style={[styles.quickTitle, { color: colors.foreground }]}>View Progress</Text>
-            <Text style={[styles.quickSub, { color: colors.muted }]}>Activity heatmap</Text>
+            <Text style={[styles.quickSub, { color: colors.muted }]}>Activity heatmap & streak</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -163,14 +177,20 @@ const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Text style={[styles.cardTitle, { color: colors.foreground }]}>Total Statistics</Text>
         </View>
         <View style={styles.statsRow}>
-          <View style={[styles.statBox, { backgroundColor: colors.surface + '80' }]}>
+          <TouchableOpacity 
+            style={[styles.statBox, { backgroundColor: colors.surface + '80' }]}
+            onPress={() => navigation.navigate('MyTopics')}
+          >
             <Text style={[styles.statValue, { color: colors.foreground }]}>{totalTopics}</Text>
             <Text style={[styles.statLabel, { color: colors.muted }]}>Topics Learned</Text>
-          </View>
-          <View style={[styles.statBox, { backgroundColor: colors.surface + '80' }]}>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.statBox, { backgroundColor: colors.surface + '80' }]}
+            onPress={() => navigation.navigate('MyTopics')}
+          >
             <Text style={[styles.statValue, { color: colors.foreground }]}>{totalTopics}</Text>
             <Text style={[styles.statLabel, { color: colors.muted }]}>Notes Saved</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         {memberSince ? (
           <View style={styles.memberRow}>

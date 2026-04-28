@@ -2,7 +2,7 @@
 // Uses Google's Gemini API (free tier available)
 // Get your free API key at: https://aistudio.google.com/apikey
 
-const GEMINI_MODEL = 'gemini-flash-lite-latest';
+const GEMINI_MODEL = 'gemini-2.5-flash-lite';
 
 function getGeminiUrl(): string {
   const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
