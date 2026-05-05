@@ -1,0 +1,5 @@
+# Root ignore
+java-temp/
+*.tar.gz
+*.zip
+*.7z
